@@ -1,0 +1,63 @@
+/* Comment.css */
+
+/* General page styling */
+.comment-page {
+    font-family: Arial, sans-serif;
+    padding: 20px;
+    background-color: #f9f9f9;
+    color: #333;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  
+  .comment-title {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #007bff;
+  }
+  
+  .comment-card {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 15px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .comment-card p {
+    margin: 10px 0;
+  }
+  
+  .comment-card strong {
+    color: #007bff;
+  }
+  
+  .comment-card p {
+    line-height: 1.6;
+  }
+  
+  /* Styling for loading and error states */
+  .loading {
+    font-size: 1.2rem;
+    text-align: center;
+    color: #007bff;
+  }
+  
+  .error {
+    font-size: 1.2rem;
+    color: #ff6f61;
+    text-align: center;
+  }
+  
+  /* Links styling */
+  .comment-card a {
+    color: #007bff;
+    text-decoration: none;
+    font-weight: bold;
+  }
+  
+  .comment-card a:hover {
+    text-decoration: underline;
+  }
+  
