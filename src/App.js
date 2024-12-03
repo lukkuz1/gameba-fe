@@ -1,6 +1,5 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import './App.css';
 import Login from './pages/Authentication/Login';
 import Register from './pages/Authentication/Register';
 import { CategoriesPage } from './pages/Category/AllCategories';

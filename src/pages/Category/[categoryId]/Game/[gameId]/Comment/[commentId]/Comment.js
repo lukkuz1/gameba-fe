@@ -39,7 +39,7 @@ export function Comment() {
     <div className="comment-page">
       <h1 className="comment-title">Comment Details</h1>
       <div className="comment-card">
-        <p><strong>User ID:</strong> {comment.UserId}</p>
+        {/* <p><strong>User ID:</strong> {comment.UserId}</p> */}
         <p><strong>Comment:</strong> {comment.Body}</p>
         <p><strong>Created at:</strong> {new Date(comment.CreatedAt).toLocaleDateString()}</p>
       </div>

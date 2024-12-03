@@ -1,5 +1,3 @@
-/* Game.css */
-
 /* Main container for the game page */
 .game-page {
     font-family: Arial, sans-serif;
@@ -57,6 +55,7 @@
 /* Comments section styling */
 .comments-section {
     margin-top: 40px;
+    padding: 20px;
 }
 
 .comments-list {
@@ -67,24 +66,57 @@
 .comment-card {
     background-color: #fff;
     border: 1px solid #ddd;
-    border-radius: 8px;
-    padding: 15px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    transition: box-shadow 0.3s ease;
+}
+
+.comment-card:hover {
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Add user information and comment content */
+.comment-card .comment-user {
+    display: flex;
+    align-items: center;
     margin-bottom: 10px;
+}
+
+.comment-card .comment-user img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.comment-card .comment-user .username {
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: #ff5722; /* Orange color for user name */
+}
+
+.comment-card .comment-user .timestamp {
+    font-size: 0.9rem;
+    color: #888;
+    margin-left: 10px;
 }
 
 .comment-card p {
     font-size: 1rem;
     color: #333;
+    line-height: 1.5;
 }
 
 /* Link styling for individual comments */
 .comment-card a {
     text-decoration: none;
-    color: #007bff;
+    color: #ff5722; /* Orange color for links */
 }
 
 .comment-card a:hover {
     text-decoration: underline;
 }
-

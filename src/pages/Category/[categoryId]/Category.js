@@ -56,21 +56,18 @@ export function Category() {
   return (
     <div className="category-page">
       {/* Display Category Details */}
-      <h1 className="category-title">{category.Name}</h1>
-      <p className="category-description">{category.Description}</p>
-      {category.AdditionalDescription && (
-        <p className="category-additional">{category.AdditionalDescription}</p>
-      )}
+      <div className="category-header">
+        <h1 className="category-title">{category.Name}</h1>
+        <p className="category-description">{category.Description}</p>
+        {category.AdditionalDescription && (
+          <p className="category-additional">{category.AdditionalDescription}</p>
+        )}
+      </div>
+
       <div className="category-details">
-        <p>
-          <strong>Rating:</strong> {category.Rating}
-        </p>
-        <p>
-          <strong>Number of Products:</strong> {category.NumberOfProducts}
-        </p>
-        <p>
-          <strong>User ID:</strong> {category.UserId}
-        </p>
+        <p><strong>Rating:</strong> {category.Rating}</p>
+        {/* <p><strong>Number of Products:</strong> {category.NumberOfProducts}</p>
+        <p><strong>User ID:</strong> {category.UserId}</p> */}
       </div>
 
       {/* Display Games in the Category */}
@@ -82,12 +79,8 @@ export function Category() {
               <div className="game-card" key={game.Id}>
                 <h3>{game.Title}</h3>
                 <p>{game.Description}</p>
-                <p>
-                  <strong>Rating:</strong> {game.Rating}
-                </p>
-                <p>
-                  <strong>Release Date:</strong> {new Date(game.ReleaseDate).toLocaleDateString()}
-                </p>
+                <p><strong>Rating:</strong> {game.Rating}</p>
+                <p><strong>Release Date:</strong> {new Date(game.ReleaseDate).toLocaleDateString()}</p>
                 <Link to={`/categories/${categoryId}/games/${game.Id}`} className="game-link">
                   View Details
                 </Link>

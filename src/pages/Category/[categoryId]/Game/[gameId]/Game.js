@@ -59,12 +59,12 @@ export function Game() {
         <p>
           <strong>Release Date:</strong> {new Date(game.ReleaseDate).toLocaleDateString()}
         </p>
-        <p>
+        {/* <p>
           <strong>Category ID:</strong> {game.CategoryId}
         </p>
         <p>
           <strong>User ID:</strong> {game.UserId}
-        </p>
+        </p> */}
       </div>
 
       {/* Display comments section */}
@@ -76,6 +76,10 @@ export function Game() {
               <li key={comment.Id}>
                 <Link to={`/categories/${categoryId}/games/${gameId}/comments/${comment.Id}`}>
                   <div className="comment-card">
+                    <div className="comment-user">
+                      <span className="username">{comment.UserName}</span>
+                      <span className="timestamp">{new Date(comment.CreatedAt).toLocaleString()}</span>
+                    </div>
                     <p>{comment.Content}</p> {/* Display the comment's content */}
                   </div>
                 </Link>
