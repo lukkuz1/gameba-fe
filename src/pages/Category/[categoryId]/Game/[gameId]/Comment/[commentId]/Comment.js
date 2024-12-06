@@ -4,12 +4,12 @@ import axios from 'axios';
 import './Comment.css';
 
 export function Comment() {
-  const { categoryId, gameId, commentId } = useParams(); // Extract categoryId, gameId, and commentId from URL
+  const { categoryId, gameId, commentId } = useParams();
   const [comment, setComment] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // Fetch single comment based on commentId
+  // Fetch comment data
   useEffect(() => {
     axios
       .get(`https://squid-app-xuzxl.ondigitalocean.app/api/v1/categories/${categoryId}/games/${gameId}/comments/${commentId}`)
@@ -37,11 +37,16 @@ export function Comment() {
 
   return (
     <div className="comment-page">
-      <h1 className="comment-title">Comment Details</h1>
+      <div className="comment-header">
+        <h1 className="comment-title">Comment Details</h1>
+      </div>
       <div className="comment-card">
-        {/* <p><strong>User ID:</strong> {comment.UserId}</p> */}
-        <p><strong>Comment:</strong> {comment.Body}</p>
-        <p><strong>Created at:</strong> {new Date(comment.CreatedAt).toLocaleDateString()}</p>
+        <p>
+          {comment.Content} 
+        </p>
+        <p>
+          <strong>Created at:</strong> {new Date(comment.CreatedAt).toLocaleDateString()}
+        </p>
       </div>
     </div>
   );

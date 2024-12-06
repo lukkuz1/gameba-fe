@@ -11,7 +11,7 @@ function App() {
   return (
     <Router>
       <Routes>
-        {/* Main Categories Page */}
+        {/* Main Pages */}
         <Route path="/" element={<CategoriesPage />} />
         <Route path="/categories/:categoryId" element={<Category />} />
         <Route path="/categories/:categoryId/games/:gameId" element={<Game />} />

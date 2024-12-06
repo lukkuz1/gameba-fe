@@ -1,122 +1,131 @@
 /* Main container for the game page */
 .game-page {
-    font-family: Arial, sans-serif;
-    margin: 20px auto;
-    max-width: 800px;
-    padding: 20px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    background-color: #f9f9f9;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-/* Game title styling */
-.game-title {
-    font-size: 2rem;
-    color: #333;
-    margin-bottom: 10px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Game Header */
+  .game-header {
     text-align: center;
-}
-
-/* Game description styling */
-.game-description {
+    margin-bottom: 40px;
+    background: linear-gradient(45deg, #ff7043, #ff5722); /* Orange gradient */
+    color: #fff;
+    padding: 30px;
+    border-radius: 10px;
+  }
+  
+  .game-title {
+    font-size: 3rem;
+    font-weight: bold;
+    margin-bottom: 15px;
+  }
+  
+  .game-description {
     font-size: 1.2rem;
-    color: #555;
-    margin-bottom: 20px;
+    color: #f2f2f2;
+    margin-bottom: 15px;
+  }
+  
+  /* Game Details */
+  .game-details {
+    font-size: 1.2rem;
+    color: #444;
+    background-color: #fafafa; /* Light gray background */
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 40px;
     text-align: center;
-}
-
-/* Game details section styling */
-.game-details {
-    margin-top: 20px;
-}
-
-/* Game details paragraph styling */
-.game-details p {
+  }
+  
+  .game-details p {
     margin: 10px 0;
+  }
+  
+  .game-details strong {
+    color: #333;
+  }
+  
+  /* Comments Section */
+  .comments-section {
+    margin-top: 40px;
+  }
+  
+  .comments-section h2 {
+    font-size: 2.5rem;
+    color: #ff7043; /* Orange */
+    margin-bottom: 20px;
+  }
+  
+  .comments-list {
+    list-style: none;
+    padding-left: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+  }
+  
+  .comment-card {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    border: 2px solid #eee;
+    overflow: hidden;
+  }
+  
+  .comment-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  }
+  
+  .comment-user {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    font-size: 0.9rem;
+  }
+  
+  .comment-user .username {
+    font-weight: bold;
+    color: #ff5722; /* Orange */
+  }
+  
+  .comment-user .timestamp {
+    color: #888;
+  }
+  
+  .comment-card p {
     font-size: 1rem;
     color: #666;
-}
-
-/* Game details strong text */
-.game-details p strong {
-    color: #333;
-}
-
-/* Loading and error message styling */
-.loading,
-.error {
-    font-size: 1.2rem;
-    color: #999;
+    line-height: 1.5;
+  }
+  
+  /* Loading and Error Styling */
+  .loading,
+  .error {
+    font-size: 1.5rem;
+    color: #ff5722; /* Orange */
     text-align: center;
     margin-top: 50px;
-}
-
-/* Comments section styling */
-.comments-section {
-    margin-top: 40px;
-    padding: 20px;
-}
-
-.comments-list {
-    list-style-type: none;
-    padding-left: 0;
-}
-
-.comment-card {
-    background-color: #fff;
-    border: 1px solid #ddd;
-    border-radius: 10px;
-    padding: 20px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    margin-bottom: 20px;
-    display: flex;
-    flex-direction: column;
-    transition: box-shadow 0.3s ease;
-}
-
-.comment-card:hover {
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-}
-
-/* Add user information and comment content */
-.comment-card .comment-user {
-    display: flex;
-    align-items: center;
-    margin-bottom: 10px;
-}
-
-.comment-card .comment-user img {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    margin-right: 10px;
-}
-
-.comment-card .comment-user .username {
-    font-size: 1.1rem;
-    font-weight: bold;
-    color: #ff5722; /* Orange color for user name */
-}
-
-.comment-card .comment-user .timestamp {
-    font-size: 0.9rem;
-    color: #888;
-    margin-left: 10px;
-}
-
-.comment-card p {
-    font-size: 1rem;
-    color: #333;
-    line-height: 1.5;
-}
-
-/* Link styling for individual comments */
-.comment-card a {
-    text-decoration: none;
-    color: #ff5722; /* Orange color for links */
-}
-
-.comment-card a:hover {
-    text-decoration: underline;
-}
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .game-title {
+      font-size: 2.2rem;
+    }
+  
+    .comments-section h2 {
+      font-size: 2rem;
+    }
+  
+    .comment-card {
+      padding: 15px;
+      border-radius: 10px;
+    }
+  }  
