@@ -6,9 +6,11 @@ import { CategoriesPage } from './pages/Category/AllCategories';
 import Category from './pages/Category/[categoryId]/Category';
 import Game from './pages/Category/[categoryId]/Game/[gameId]/Game';
 import Comment from './pages/Category/[categoryId]/Game/[gameId]/Comment/[commentId]/Comment';
+import { AuthProvider } from './hooks/authentification/authcontext';
 
 function App() {
   return (
+    <AuthProvider>
     <Router>
       <Routes>
         {/* Main Pages */}
@@ -21,6 +23,7 @@ function App() {
         <Route path="/register" element={<Register />} />
       </Routes>
     </Router>
+    </AuthProvider>
   );
 }
 

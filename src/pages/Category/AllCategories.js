@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './AllCategories.css';
+import { useAuth } from '../../hooks/authentification/authcontext';
 
 function Modal({ isOpen, onClose }) {
   if (!isOpen) return null;
@@ -22,6 +23,8 @@ export function CategoriesPage() {
   const [error, setError] = useState(null);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const { auth, logout } = useAuth();
+  const navigate = useNavigate();
 
   useEffect(() => {
     axios
@@ -35,6 +38,13 @@ export function CategoriesPage() {
         setLoading(false);
       });
   }, []);
+
+  const handleLogout = () => {
+    // Call the logout function from context to clear the auth state
+    logout();
+    // Redirect user to login page after logout
+    navigate('/login');
+  };
 
   if (loading) {
     return <div className="loading">Loading categories...</div>;
@@ -56,12 +66,21 @@ export function CategoriesPage() {
           <span className="menu-bar"></span>
         </div>
         <nav className={`auth-buttons ${isMenuOpen ? 'menu-open' : ''}`}>
-          <Link to="/login">
-            <button className="auth-button">Login</button>
-          </Link>
-          <Link to="/register">
-            <button className="auth-button">Register</button>
-          </Link>
+          {/* Show Logout button if logged in, otherwise show Login and Register buttons */}
+          {auth?.accessToken ? (
+            <button onClick={handleLogout} className="auth-button">
+              Logout
+            </button>
+          ) : (
+            <>
+              <Link to="/login">
+                <button className="auth-button">Login</button>
+              </Link>
+              <Link to="/register">
+                <button className="auth-button">Register</button>
+              </Link>
+            </>
+          )}
         </nav>
       </header>
 

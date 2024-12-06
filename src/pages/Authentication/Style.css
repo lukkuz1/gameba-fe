@@ -1,123 +1,110 @@
 /* General styles for the login and register pages */
 .auth-page {
-    font-family: Arial, sans-serif;
-    background-color: #f9f9f9;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
-  }
-  
-  .auth-header {
-    text-align: center;
-    margin-bottom: 30px;
-  }
-  
+  font-family: 'Roboto', sans-serif;
+  background-color: #f4f7f6;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.auth-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.auth-header h1 {
+  font-size: 3rem;
+  color: #ff5722; /* Gameba brand color */
+  margin-bottom: 5px;
+}
+
+.auth-header p {
+  font-size: 1.2rem;
+  color: #555;
+}
+
+/* Container for the form section */
+.auth-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  max-width: 420px;
+  margin-top: 30px;
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  padding: 40px;
+}
+
+.auth-container h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 1.8rem;
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+}
+
+.auth-input {
+  padding: 12px;
+  font-size: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  outline: none;
+  transition: all 0.3s ease-in-out;
+}
+
+.auth-input:focus {
+  border-color: #ff5722;
+  box-shadow: 0 0 5px rgba(255, 87, 34, 0.4);
+}
+
+.auth-button {
+  padding: 14px;
+  font-size: 1.1rem;
+  background-color: #ff5722;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.auth-button:hover {
+  background-color: #e64a19;
+}
+
+/* Error and success message styling */
+.error, .success {
+  color: red;
+  text-align: center;
+  font-size: 1rem;
+}
+
+/* Responsive design */
+@media (max-width: 600px) {
   .auth-header h1 {
-    font-size: 3rem;
-    color: #ff5722; /* Gameba brand color */
-    margin-bottom: 5px;
-  }
-  
-  .auth-header p {
-    font-size: 1.2rem;
-    color: #555;
-  }
-  
-  /* Container for the form section */
-  .auth-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    max-width: 400px;
-    margin-top: 30px;
-  }
-  
-  /* Content within the auth container */
-  .auth-content {
-    background-color: #fff;
-    padding: 30px;
-    border-radius: 8px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    width: 100%;
-  }
-  
-  .auth-heading {
-    font-size: 1.8rem;
-    color: #333;
-    margin-bottom: 20px;
-    text-align: center;
-  }
-  
-  /* Form and input fields styling */
-  .auth-form {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-  }
-  
-  .auth-input {
-    padding: 10px;
-    font-size: 1rem;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    margin-bottom: 10px;
-    outline: none;
-    transition: border-color 0.3s ease;
-  }
-  
-  .auth-input:focus {
-    border-color: #ff5722; /* Highlight border color on focus */
-  }
-  
-  /* Button styling */
-  .auth-button {
-    padding: 12px;
-    font-size: 1.1rem;
-    background-color: #ff5722;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  .auth-button:hover {
-    background-color: #e64a19;
-  }
-  
-  /* Footer styling */
-  .auth-footer {
-    text-align: center;
-    font-size: 0.9rem;
-    color: #999;
-    margin-top: 30px;
-  }
-  
-  .auth-footer p {
-    margin: 0;
-  }
-  
-  /* Media Query for responsiveness */
-  @media (max-width: 600px) {
-    .auth-header h1 {
       font-size: 2.5rem;
-    }
-  
-    .auth-content {
-      padding: 20px;
-    }
-  
-    .auth-heading {
-      font-size: 1.5rem;
-    }
-  
-    .auth-button {
-      font-size: 1rem;
-      padding: 10px;
-    }
   }
-  
+
+  .auth-container {
+      padding: 30px;
+  }
+
+  .auth-container h2 {
+      font-size: 1.5rem;
+  }
+
+  .auth-button {
+      font-size: 1rem;
+      padding: 12px;
+  }
+}
