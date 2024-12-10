@@ -47,6 +47,48 @@
   color: #007bff; /* Blue */
 }
 
+/* Edit Form */
+.edit-form textarea {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.edit-form .buttons button {
+  background-color: #42a5f5;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-right: 10px;
+}
+
+.edit-form .buttons button:hover {
+  background-color: #007bff;
+}
+
+/* Buttons */
+.buttons button {
+  background-color: #42a5f5;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-right: 10px;
+}
+
+.buttons button:hover {
+  background-color: #007bff;
+}
+
 /* Loading and Error Messages */
 .loading,
 .error {
@@ -72,5 +114,13 @@
   .comment-card {
     padding: 15px;
     font-size: 1rem;
+  }
+
+  .edit-form textarea {
+    font-size: 1rem;
+  }
+
+  .buttons button {
+    font-size: 0.9rem;
   }
 }

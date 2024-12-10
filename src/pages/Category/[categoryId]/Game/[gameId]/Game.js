@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
-import axios from 'axios';
 import { useAuth } from '../../../../../hooks/authentification/authcontext';
+import { getGame, updateGame, deleteGame } from '../../../../../hooks/games/gamesApi';
+import { getComments, addComment } from '../../../../../hooks/comments/commentsApi';
 import './Game.css';
 
 export function Game() {
@@ -23,78 +24,69 @@ export function Game() {
 
   // Fetch game details
   useEffect(() => {
-    axios
-      .get(`https://squid-app-xuzxl.ondigitalocean.app/api/v1/categories/${categoryId}/games/${gameId}`)
-      .then((response) => {
-        setGame(response.data);
+    const fetchGameData = async () => {
+      try {
+        const gameData = await getGame(categoryId, gameId);
+        setGame(gameData);
         setUpdatedGame({
-          Title: response.data.Title,
-          Description: response.data.Description,
-          Rating: response.data.Rating,
+          Title: gameData.Title,
+          Description: gameData.Description,
+          Rating: gameData.Rating,
         });
         setLoading(false);
-      })
-      .catch((err) => {
+      } catch (err) {
         setError('Error fetching game data: ' + err.message);
         setLoading(false);
-      });
+      }
+    };
+
+    fetchGameData();
   }, [categoryId, gameId]);
 
   // Fetch comments
   useEffect(() => {
-    axios
-      .get(`https://squid-app-xuzxl.ondigitalocean.app/api/v1/categories/${categoryId}/games/${gameId}/comments`)
-      .then((response) => {
-        setComments(response.data);
-      })
-      .catch((err) => {
+    const fetchComments = async () => {
+      try {
+        const commentsData = await getComments(categoryId, gameId);
+        setComments(commentsData);
+      } catch (err) {
         setError('Error fetching comments: ' + err.message);
-      });
+      }
+    };
+
+    fetchComments();
   }, [categoryId, gameId]);
 
-  const handleEditGame = () => {
-    axios
-      .put(
-        `https://squid-app-xuzxl.ondigitalocean.app/api/v1/categories/${categoryId}/games/${gameId}`,
-        updatedGame,
-        { headers: { Authorization: `Bearer ${auth.accessToken}` } }
-      )
-      .then((response) => {
-        setGame(response.data);
-        setEditMode(false);
-      })
-      .catch((err) => {
-        setError('Error updating game: ' + err.message);
-      });
+  // Handle game update
+  const handleEditGame = async () => {
+    try {
+      const updatedGameData = await updateGame(categoryId, gameId, updatedGame);
+      setGame(updatedGameData);
+      setEditMode(false);
+    } catch (err) {
+      setError('Error updating game: ' + err.message);
+    }
   };
 
-  const handleDeleteGame = () => {
-    axios
-      .delete(`https://squid-app-xuzxl.ondigitalocean.app/api/v1/categories/${categoryId}/games/${gameId}`, {
-        headers: { Authorization: `Bearer ${auth.accessToken}` },
-      })
-      .then(() => {
-        navigate(`/categories/${categoryId}`);
-      })
-      .catch((err) => {
-        setError('Error deleting game: ' + err.message);
-      });
+  // Handle game deletion
+  const handleDeleteGame = async () => {
+    try {
+      await deleteGame(categoryId, gameId);
+      navigate(`/categories/${categoryId}`);
+    } catch (err) {
+      setError('Error deleting game: ' + err.message);
+    }
   };
 
-  const handleAddComment = () => {
-    axios
-      .post(
-        `https://squid-app-xuzxl.ondigitalocean.app/api/v1/categories/${categoryId}/games/${gameId}/comments`,
-        { Content: newComment },
-        { headers: { Authorization: `Bearer ${auth.accessToken}` } }
-      )
-      .then((response) => {
-        setComments((prevComments) => [...prevComments, response.data]);
-        setNewComment('');
-      })
-      .catch((err) => {
-        setError('Error adding comment: ' + err.message);
-      });
+  // Handle adding a new comment
+  const handleAddComment = async () => {
+    try {
+      const newCommentData = await addComment(categoryId, gameId, { Content: newComment });
+      setComments((prevComments) => [...prevComments, newCommentData]);
+      setNewComment('');
+    } catch (err) {
+      setError('Error adding comment: ' + err.message);
+    }
   };
 
   if (loading) {

@@ -1,121 +1,109 @@
 /* General App styling */
 .App {
   font-family: 'Arial', sans-serif;
-  background-color: #f2f2f2;
+  background-color: #f4f7fc; /* Light grey-blue background for a clean look */
   color: #333;
   padding: 20px;
   text-align: center;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 /* Header with logo and buttons */
 .App-header {
-  background-color: #333;
-  padding: 10px;
+  background-color: #ff6347; /* Tomato color for the header */
+  padding: 20px 40px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   color: white;
   border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.logo-container {
+.logo {
   font-size: 2rem;
-  font-weight: bold;
-  color: #ff6347; /* Tomato color for the game store */
-}
-
-/* Menu Toggle */
-.menu-toggle {
-  display: none;
-  flex-direction: column;
-  gap: 5px;
-  cursor: pointer;
-}
-
-.menu-bar {
-  width: 30px;
-  height: 4px;
-  background-color: white;
-  border-radius: 2px;
+  font-weight: 700;
+  letter-spacing: 2px;
 }
 
 /* Authentication buttons */
 .auth-buttons {
   display: flex;
-  gap: 10px;
+  gap: 15px;
 }
 
 .auth-button {
-  padding: 10px 20px;
-  font-size: 1rem;
+  padding: 12px 24px;
+  font-size: 1.1rem;
+  font-weight: 600;
   border: none;
-  border-radius: 5px;
+  border-radius: 8px;
   cursor: pointer;
-  background-color: #ff6347;
-  color: white;
-  transition: background-color 0.3s;
+  background-color: #ffffff;
+  color: #ff6347;
+  transition: all 0.3s;
 }
 
 .auth-button:hover {
-  background-color: #e5533d;
+  background-color: #ff5e3a;
+  color: white;
 }
 
-/* Responsive menu */
-.menu-open {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  position: absolute;
-  top: 60px;
-  right: 10px;
-  background-color: #333;
-  padding: 10px;
+/* Info and Add Category buttons */
+.info-button, .add-button {
+  padding: 12px 24px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  border: none;
   border-radius: 8px;
+  cursor: pointer;
+  background-color: #ffffff;
+  color: #ff6347;
+  transition: all 0.3s ease;
 }
 
-@media (max-width: 768px) {
-  .menu-toggle {
-      display: flex;
-  }
-
-  .auth-buttons {
-      display: none;
-  }
+.info-button:hover, .add-button:hover {
+  background-color: #ff5e3a;
+  color: white;
 }
 
 /* Categories Section */
 .categories-section {
-  margin-top: 20px;
+  margin-top: 40px;
 }
 
 .category-list {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  gap: 20px;
-  margin-top: 20px;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 30px;
+  margin-top: 40px;
 }
 
 .category-card {
   background-color: #fff;
   padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  transition: transform 0.2s ease-in-out;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  cursor: pointer;
 }
 
 .category-card:hover {
-  transform: scale(1.05);
+  transform: translateY(-5px);
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
 
 .category-card h3 {
-  font-size: 1.5rem;
-  margin-bottom: 10px;
+  font-size: 1.6rem;
+  margin-bottom: 15px;
   color: #333;
 }
 
 .category-card p {
-  font-size: 1rem;
+  font-size: 1.1rem;
   color: #666;
 }
 
@@ -126,7 +114,7 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.7);
+  background: rgba(0, 0, 0, 0.5);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -134,55 +122,56 @@
 }
 
 .modal-content {
-  background: white;
-  padding: 20px;
-  border-radius: 8px;
+  background: #fff;
+  padding: 30px;
+  border-radius: 12px;
   text-align: center;
   max-width: 500px;
-  width: 80%;
+  width: 85%;
   animation: fadeIn 0.3s ease-in-out;
 }
 
 .modal-close-button {
-  margin-top: 10px;
-  padding: 10px 20px;
+  margin-top: 20px;
+  padding: 12px 24px;
   background-color: #ff6347;
   border: none;
   color: white;
-  border-radius: 5px;
+  border-radius: 8px;
   cursor: pointer;
   transition: background-color 0.3s;
 }
 
 .modal-close-button:hover {
-  background-color: #e5533d;
+  background-color: #ff5e3a;
 }
 
 @keyframes fadeIn {
   from {
-      opacity: 0;
+    opacity: 0;
   }
   to {
-      opacity: 1;
+    opacity: 1;
   }
 }
 
 /* Loading and Error States */
-.loading {
-  font-size: 1.5rem;
-  color: #ff6347;
-}
-
+.loading,
 .error {
   font-size: 1.5rem;
-  color: red;
+  font-weight: 600;
+  color: #ff6347;
 }
 
 /* Footer */
 .App-footer {
-  margin-top: 20px;
-  padding: 10px;
+  margin-top: 40px;
+  padding: 15px 20px;
   background-color: #333;
   color: white;
   border-radius: 8px;
+  font-size: 1rem;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
+

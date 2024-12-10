@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react';
-import { useParams, Link, useNavigate } from 'react-router-dom';
-import axios from 'axios';
-import './Category.css';
-import { useAuth } from '../../../hooks/authentification/authcontext';
-import { addGame } from '../../../hooks/games/gamesApi';
-import { deleteCategorie } from '../../../hooks/categories/categoriesApi';
+import React, { useEffect, useState } from "react";
+import { useParams, Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../../../hooks/authentification/authcontext";
+import { addGame } from "../../../hooks/games/gamesApi";
+import { deleteCategorie, getCategorie } from "../../../hooks/categories/categoriesApi";
+import { getGames } from "../../../hooks/games/gamesApi";
+import "./Category.css";
 
 export function Category() {
   const { categoryId } = useParams();
@@ -15,35 +15,46 @@ export function Category() {
   const [isEditing, setIsEditing] = useState(false);
   const [editData, setEditData] = useState({});
   const [isAddingGame, setIsAddingGame] = useState(false);
-  const [newGameData, setNewGameData] = useState({ title: '', description: '' });
+  const [newGameData, setNewGameData] = useState({
+    title: "",
+    description: "",
+  });
   const { auth } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Fetch category details
-    axios
-      .get(`https://squid-app-xuzxl.ondigitalocean.app/api/v1/categories/${categoryId}`)
-      .then((response) => {
-        setCategory(response.data);
-        setEditData(response.data); // Pre-fill form with current category data
-      })
-      .catch((err) => setError(err.message));
+    const fetchCategoryDetails = async () => {
+      try {
+        const response = await getCategorie(categoryId);
+        setCategory(response);
+        setEditData(response);
+      } catch (err) {
+        setError(err.message);
+      }
+    };
 
-    // Fetch games in the category
-    axios
-      .get(`https://squid-app-xuzxl.ondigitalocean.app/api/v1/categories/${categoryId}/games`)
-      .then((response) => setGames(response.data))
-      .catch((err) => setError(err.message))
-      .finally(() => setLoading(false));
+    const fetchGames = async () => {
+      try {
+        const response = await getGames(categoryId);
+        setGames(response);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchCategoryDetails();
+    fetchGames();
   }, [categoryId]);
 
   const handleDeleteCategory = async () => {
     if (!auth?.accessToken) {
-      alert('You must be logged in to delete categories.');
+      alert("You must be logged in to delete categories.");
       return;
     }
 
-    if (!window.confirm('Are you sure you want to delete this category?')) {
+    if (!window.confirm("Are you sure you want to delete this category?")) {
       return;
     }
 
@@ -51,14 +62,14 @@ export function Category() {
       await deleteCategorie(categoryId, {
         headers: { Authorization: `Bearer ${auth.accessToken}` },
       });
-      alert('Category deleted successfully.');
-      navigate('/categories'); // Redirect to categories list
+      alert("Category deleted successfully.");
+      navigate("/categories"); // Redirect to categories list
     } catch (error) {
-      console.error('Failed to delete category:', error);
+      console.error("Failed to delete category:", error);
       if (error.response?.status === 403 || error.response?.status === 401) {
-        alert('Unauthorized: You do not have permission to delete this category.');
+        alert("Unauthorized: You do not have permission to delete this category.");
       } else {
-        alert('Failed to delete category. Please try again.');
+        alert("Failed to delete category. Please try again.");
       }
     }
   };
@@ -74,7 +85,7 @@ export function Category() {
 
   const handleAddGame = async () => {
     if (!auth?.accessToken) {
-      alert('You must be logged in to add games.');
+      alert("You must be logged in to add games.");
       return;
     }
 
@@ -88,15 +99,15 @@ export function Category() {
         headers: { Authorization: `Bearer ${auth.accessToken}` },
       });
       setGames((prevGames) => [...prevGames, addedGame]);
-      setNewGameData({ title: '', description: '' });
+      setNewGameData({ title: "", description: "" });
       setIsAddingGame(false);
-      alert('Game added successfully.');
+      alert("Game added successfully.");
     } catch (error) {
-      console.error('Failed to add game:', error);
+      console.error("Failed to add game:", error);
       if (error.response?.status === 403 || error.response?.status === 401) {
-        alert('Unauthorized: You do not have permission to add games.');
+        alert("Unauthorized: You do not have permission to add games.");
       } else {
-        alert('Failed to add game. Please try again.');
+        alert("Failed to add game. Please try again.");
       }
     }
   };
@@ -117,15 +128,22 @@ export function Category() {
     <div className="category-page">
       <div className="category-header">
         <h1 className="category-title">{category.Name}</h1>
-          <button onClick={handleDeleteCategory} className="delete-button">
-            Delete Category
-          </button>
+        <button onClick={handleDeleteCategory} className="delete-button">
+          Delete Category
+        </button>
       </div>
 
       <div className="category-details">
-        <p><strong>Description:</strong> {category.Description}</p>
-        <p><strong>Additional Description:</strong> {category.AdditionalDescription || 'N/A'}</p>
-        <p><strong>Rating:</strong> {category.Rating}</p>
+        <p>
+          <strong>Description:</strong> {category.Description}
+        </p>
+        <p>
+          <strong>Additional Description:</strong>{" "}
+          {category.AdditionalDescription || "N/A"}
+        </p>
+        <p>
+          <strong>Rating:</strong> {category.Rating}
+        </p>
       </div>
 
       <div className="games-section">
@@ -136,9 +154,17 @@ export function Category() {
               <div className="game-card" key={game.Id}>
                 <h3>{game.Title}</h3>
                 <p>{game.Description}</p>
-                <p><strong>Rating:</strong> {game.Rating}</p>
-                <p><strong>Release Date:</strong> {new Date(game.ReleaseDate).toLocaleDateString()}</p>
-                <Link to={`/categories/${categoryId}/games/${game.Id}`} className="game-link">
+                <p>
+                  <strong>Rating:</strong> {game.Rating}
+                </p>
+                <p>
+                  <strong>Release Date:</strong>{" "}
+                  {new Date(game.ReleaseDate).toLocaleDateString()}
+                </p>
+                <Link
+                  to={`/categories/${categoryId}/games/${game.Id}`}
+                  className="game-link"
+                >
                   View Details
                 </Link>
               </div>

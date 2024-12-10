@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import axios from 'axios';
 import { useAuth } from '../../../../../../../hooks/authentification/authcontext';
+import { getComment, updateComment, deleteComment } from '../../../../../../../hooks/comments/commentsApi';
 import './Comment.css';
 
 export function Comment() {
@@ -17,47 +17,40 @@ export function Comment() {
 
   // Fetch comment data
   useEffect(() => {
-    axios
-      .get(`https://squid-app-xuzxl.ondigitalocean.app/api/v1/categories/${categoryId}/games/${gameId}/comments/${commentId}`)
-      .then((response) => {
-        setComment(response.data);
-        setUpdatedContent(response.data.Content);
+    const fetchCommentData = async () => {
+      try {
+        const data = await getComment(categoryId, gameId, commentId);
+        setComment(data);
+        setUpdatedContent(data.Content);
         setLoading(false);
-      })
-      .catch((err) => {
+      } catch (err) {
         setError('Error fetching comment: ' + err.message);
         setLoading(false);
-      });
+      }
+    };
+
+    fetchCommentData();
   }, [categoryId, gameId, commentId]);
 
-  const handleEditComment = () => {
-    axios
-      .put(
-        `https://squid-app-xuzxl.ondigitalocean.app/api/v1/categories/${categoryId}/games/${gameId}/comments/${commentId}`,
-        { Content: updatedContent },
-        { headers: { Authorization: `Bearer ${auth.accessToken}` } }
-      )
-      .then((response) => {
-        setComment(response.data);
-        setEditMode(false);
-      })
-      .catch((err) => {
-        setError('Error updating comment: ' + err.message);
-      });
+  // Handle comment update
+  const handleEditComment = async () => {
+    try {
+      const updatedComment = await updateComment(categoryId, gameId, commentId, { Content: updatedContent });
+      setComment(updatedComment);
+      setEditMode(false);
+    } catch (err) {
+      setError('Error updating comment: ' + err.message);
+    }
   };
 
-  const handleDeleteComment = () => {
-    axios
-      .delete(
-        `https://squid-app-xuzxl.ondigitalocean.app/api/v1/categories/${categoryId}/games/${gameId}/comments/${commentId}`,
-        { headers: { Authorization: `Bearer ${auth.accessToken}` } }
-      )
-      .then(() => {
-        navigate(`/categories/${categoryId}/games/${gameId}`);
-      })
-      .catch((err) => {
-        setError('Error deleting comment: ' + err.message);
-      });
+  // Handle comment deletion
+  const handleDeleteComment = async () => {
+    try {
+      await deleteComment(categoryId, gameId, commentId);
+      navigate(`/categories/${categoryId}/games/${gameId}`);
+    } catch (err) {
+      setError('Error deleting comment: ' + err.message);
+    }
   };
 
   if (loading) {
@@ -79,14 +72,16 @@ export function Comment() {
       </div>
       <div className="comment-card">
         {editMode ? (
-          <div>
+          <div className="edit-form">
             <textarea
               value={updatedContent}
               onChange={(e) => setUpdatedContent(e.target.value)}
               placeholder="Edit your comment"
             />
-            <button onClick={handleEditComment}>Save</button>
-            <button onClick={() => setEditMode(false)}>Cancel</button>
+            <div className="buttons">
+              <button onClick={handleEditComment}>Save</button>
+              <button onClick={() => setEditMode(false)}>Cancel</button>
+            </div>
           </div>
         ) : (
           <>
@@ -94,8 +89,10 @@ export function Comment() {
             <p>
               <strong>Created at:</strong> {new Date(comment.CreatedAt).toLocaleDateString()}
             </p>
-            <button onClick={() => setEditMode(true)}>Edit Comment</button>
-            <button onClick={handleDeleteComment}>Delete Comment</button>
+            <div className="buttons">
+              <button onClick={() => setEditMode(true)}>Edit Comment</button>
+              <button onClick={handleDeleteComment}>Delete Comment</button>
+            </div>
           </>
         )}
       </div>

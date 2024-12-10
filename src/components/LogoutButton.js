@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../../hooks/authentification/authcontext';
+import { useAuth } from '../hooks/authentification/authcontext';
 
 function LogoutButton() {
   const { logout } = useAuth();
