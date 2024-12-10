@@ -1,21 +1,10 @@
+// src/pages/CategoriesPage.js
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import axios from 'axios';
-import './AllCategories.css';
+import { getCategories, addCategorie } from '../../hooks/categories/categoriesApi';
 import { useAuth } from '../../hooks/authentification/authcontext';
-
-function Modal({ isOpen, onClose }) {
-  if (!isOpen) return null;
-  return (
-    <div className="modal-overlay" onClick={onClose}>
-      <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-        <h2>Welcome to Gameba</h2>
-        <p>Explore the best game categories and find your next adventure!</p>
-        <button onClick={onClose} className="modal-close-button">Close</button>
-      </div>
-    </div>
-  );
-}
+import Modal from '../../components/Modal';
+import './AllCategories.css';
 
 export function CategoriesPage() {
   const [categories, setCategories] = useState([]);
@@ -23,27 +12,45 @@ export function CategoriesPage() {
   const [error, setError] = useState(null);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const [newCategory, setNewCategory] = useState({ Name: '', Description: '' });
   const { auth, logout } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
-    axios
-      .get('https://squid-app-xuzxl.ondigitalocean.app/api/v1/categories')
-      .then((response) => {
-        setCategories(response.data);
-        setLoading(false);
-      })
-      .catch((err) => {
+    const fetchCategories = async () => {
+      try {
+        const data = await getCategories();
+        setCategories(data);
+      } catch (err) {
         setError(err.message);
+      } finally {
         setLoading(false);
-      });
+      }
+    };
+    fetchCategories();
   }, []);
 
   const handleLogout = () => {
-    // Call the logout function from context to clear the auth state
     logout();
-    // Redirect user to login page after logout
     navigate('/login');
+  };
+
+  const handleAddCategory = async () => {
+    if (!auth?.accessToken) {
+      alert('You must be logged in to add categories.');
+      return;
+    }
+
+    try {
+      const response = await addCategorie(newCategory, auth.accessToken);
+      setCategories([...categories, response]); // Add the new category to the list
+      setIsAddModalOpen(false); // Close the modal
+      setNewCategory({ Name: '', Description: '' }); // Reset the form
+    } catch (error) {
+      console.error('Failed to add category:', error);
+      alert('Failed to add category. Make sure you are an admin.');
+    }
   };
 
   if (loading) {
@@ -66,11 +73,8 @@ export function CategoriesPage() {
           <span className="menu-bar"></span>
         </div>
         <nav className={`auth-buttons ${isMenuOpen ? 'menu-open' : ''}`}>
-          {/* Show Logout button if logged in, otherwise show Login and Register buttons */}
           {auth?.accessToken ? (
-            <button onClick={handleLogout} className="auth-button">
-              Logout
-            </button>
+            <button onClick={handleLogout} className="auth-button">Logout</button>
           ) : (
             <>
               <Link to="/login">
@@ -86,10 +90,31 @@ export function CategoriesPage() {
 
       <main className="categories-section">
         <h2>Game Categories</h2>
-        <button className="info-button" onClick={() => setIsModalOpen(true)}>
-          Show Info
-        </button>
-        <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+        <button className="info-button" onClick={() => setIsModalOpen(true)}>Show Info</button>
+        {auth?.accessToken && (
+          <button className="add-button" onClick={() => setIsAddModalOpen(true)}>
+            Add Category
+          </button>
+        )}
+        <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
+          <h2>Welcome to Gameba</h2>
+          <p>Explore the best game categories and find your next adventure!</p>
+        </Modal>
+        <Modal isOpen={isAddModalOpen} onClose={() => setIsAddModalOpen(false)}>
+          <h2>Add New Category</h2>
+          <input
+            type="text"
+            placeholder="Category Name"
+            value={newCategory.Name}
+            onChange={(e) => setNewCategory({ ...newCategory, Name: e.target.value })}
+          />
+          <textarea
+            placeholder="Category Description"
+            value={newCategory.Description}
+            onChange={(e) => setNewCategory({ ...newCategory, Description: e.target.value })}
+          />
+          <button onClick={handleAddCategory} className="submit-button">Add</button>
+        </Modal>
         {categories.length > 0 ? (
           <div className="category-list">
             {categories.map((category) => (

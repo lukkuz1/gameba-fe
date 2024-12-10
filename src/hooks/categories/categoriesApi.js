@@ -24,16 +24,16 @@ const getCategorie = async (id) => {
   }
 };
 
-// Add a new category
-const addCategorie = async (categoryData) => {
+const addCategorie = async (categoryData, token) => {
   try {
-    const response = await axios.post(BASE_URL, categoryData);
+    const response = await axios.post(BASE_URL, categoryData, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
     return response.data;
   } catch (error) {
     throw new Error(error.message || 'Failed to add category');
   }
 };
-
 // Update an existing category
 const updateCategorie = async (id, categoryData) => {
   try {

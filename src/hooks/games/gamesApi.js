@@ -25,14 +25,17 @@ const getGame = async (categoryId, gameId) => {
 };
 
 // Add a new game to a category
-const addGame = async (categoryId, gameData) => {
+const addGame = async (categoryId, gameData, config) => {
   try {
-    const response = await axios.post(`${BASE_URL}/${categoryId}/games`, gameData);
+    console.log('Sending Request with config:', config);
+    const response = await axios.post(`${BASE_URL}/${categoryId}/games`, gameData, config);
     return response.data;
   } catch (error) {
+    console.error('Error details:', error.response || error.message);
     throw new Error(error.message || 'Failed to add game');
   }
 };
+
 
 // Update an existing game in a category
 const updateGame = async (categoryId, gameId, gameData) => {
