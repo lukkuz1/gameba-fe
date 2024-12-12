@@ -63,15 +63,6 @@
   box-shadow: 0 0 5px 3px rgba(255, 99, 71, 0.5); /* Add focus glow */
 }
 
-/* Responsive adjustments for smaller screens */
-@media (max-width: 600px) {
-  .auth-button {
-    padding: 12px 24px;
-    font-size: 1rem;
-  }
-}
-
-
 /* Info and Add Category buttons */
 .info-button, .add-button {
   padding: 12px 24px;
@@ -195,3 +186,48 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
+/* Buttons (Add, Close, etc.) */
+.gameba-auth-button, .gameba-submit-button, .gameba-modal-close-button {
+  padding: 12px 24px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  background-color: #ff6347;
+  color: white;
+  transition: all 0.3s ease-in-out;
+  border: none;
+  text-transform: uppercase;
+}
+
+.gameba-auth-button:hover, .gameba-submit-button:hover, .gameba-modal-close-button:hover {
+  background-color: #ff5e3a;
+  transform: scale(1.05);
+}
+
+.gameba-auth-button:active, .gameba-submit-button:active, .gameba-modal-close-button:active {
+  transform: scale(0.98);
+}
+
+.gameba-auth-button:focus, .gameba-submit-button:focus, .gameba-modal-close-button:focus {
+  outline: none;
+  box-shadow: 0 0 5px 3px rgba(255, 99, 71, 0.5);
+}
+
+/* Specific styles for submit button */
+.gameba-submit-button {
+  background-color: #28a745; /* Green background for submit */
+}
+
+.gameba-submit-button:hover {
+  background-color: #218838;
+}
+
+/* Specific styles for close button */
+.gameba-modal-close-button {
+  background-color: #dc3545; /* Red background for close */
+}
+
+.gameba-modal-close-button:hover {
+  background-color: #c82333;
+}

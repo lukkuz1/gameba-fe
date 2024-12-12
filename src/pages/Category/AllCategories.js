@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { addCategorie, getCategories } from "../../hooks/categories/categoriesApi";
 import { useAuth } from "../../hooks/authentification/authcontext";
 import Modal from "../../components/Modal";
 import CategoryCard from "../../components/CategoryCard";
+import AddCategoryModal from "../../components/AddCategoryModal";
 import "./AllCategories.css";
 
 export function CategoriesPage() {
@@ -11,7 +12,7 @@ export function CategoriesPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false); // Toggle for Add Category Modal
   const [newCategory, setNewCategory] = useState({ Name: "", Description: "" });
   const { auth, logout } = useAuth();
   const navigate = useNavigate();
@@ -44,7 +45,7 @@ export function CategoriesPage() {
     try {
       const response = await addCategorie(newCategory, auth.accessToken);
       setCategories((prevCategories) => [...prevCategories, response]);
-      setIsAddModalOpen(false);
+      setIsAddModalOpen(false); // Close modal after adding
       setNewCategory({ Name: "", Description: "" });
     } catch (error) {
       alert("Failed to add category. Ensure you have admin privileges.");
@@ -60,13 +61,13 @@ export function CategoriesPage() {
         <h1 className="logo">Gameba</h1>
         <nav className="auth-buttons">
           {auth?.accessToken ? (
-            <button onClick={handleLogout} className="auth-button">
+            <button onClick={handleLogout} className="gameba-auth-button">
               Logout
             </button>
           ) : (
             <>
-              <button className="auth-button" onClick={() => navigate("/login")}>Login</button>
-              <button className="auth-button" onClick={() => navigate("/register")}>Register</button>
+              <button className="gameba-auth-button" onClick={() => navigate("/login")}>Login</button>
+              <button className="gameba-auth-button" onClick={() => navigate("/register")}>Register</button>
             </>
           )}
         </nav>
@@ -89,27 +90,14 @@ export function CategoriesPage() {
           <p>Explore the best game categories and find your next adventure!</p>
         </Modal>
 
-        <Modal isOpen={isAddModalOpen} onClose={() => setIsAddModalOpen(false)}>
-          <h2>Add New Category</h2>
-          <input
-            type="text"
-            placeholder="Category Name"
-            value={newCategory.Name}
-            onChange={(e) =>
-              setNewCategory({ ...newCategory, Name: e.target.value })
-            }
-          />
-          <textarea
-            placeholder="Category Description"
-            value={newCategory.Description}
-            onChange={(e) =>
-              setNewCategory({ ...newCategory, Description: e.target.value })
-            }
-          />
-          <button onClick={handleAddCategory} className="submit-button">
-            Add
-          </button>
-        </Modal>
+        {/* Add New Category Modal */}
+        <AddCategoryModal
+          isOpen={isAddModalOpen}
+          onClose={() => setIsAddModalOpen(false)}
+          newCategory={newCategory}
+          setNewCategory={setNewCategory}
+          handleAddCategory={handleAddCategory}
+        />
 
         {categories.length > 0 ? (
           <div className="category-list">

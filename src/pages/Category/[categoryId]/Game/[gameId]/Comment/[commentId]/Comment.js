@@ -15,7 +15,6 @@ export function Comment() {
   const [editMode, setEditMode] = useState(false);
   const [updatedContent, setUpdatedContent] = useState('');
 
-  // Fetch comment data
   useEffect(() => {
     const fetchCommentData = async () => {
       try {
@@ -32,13 +31,12 @@ export function Comment() {
     fetchCommentData();
   }, [categoryId, gameId, commentId]);
 
-  // Handle comment update
   const handleEditComment = async () => {
     if (!auth?.accessToken) {
       alert("You must be logged in to edit this comment.");
       return;
     }
-  
+
     try {
       const updatedComment = await updateComment(
         categoryId,
@@ -54,19 +52,17 @@ export function Comment() {
       setError('Error updating comment: ' + (err.response?.data?.message || err.message));
     }
   };
-  
 
-  // Handle comment deletion
   const handleDeleteComment = async () => {
     if (!auth?.accessToken) {
       alert("You must be logged in to delete this comment.");
       return;
     }
-  
+
     if (!window.confirm("Are you sure you want to delete this comment?")) {
       return;
     }
-  
+
     try {
       await deleteComment(categoryId, gameId, commentId, {
         headers: { Authorization: `Bearer ${auth.accessToken}` },
@@ -74,10 +70,7 @@ export function Comment() {
       alert("Comment deleted successfully.");
       navigate(`/categories/${categoryId}/games/${gameId}`);
     } catch (err) {
-      console.error("Error deleting comment:", err);
-      setError(
-        "Error deleting comment: " + (err.response?.data?.message || err.message)
-      );
+      setError("Error deleting comment: " + (err.response?.data?.message || err.message));
     }
   };
 
@@ -105,6 +98,7 @@ export function Comment() {
               value={updatedContent}
               onChange={(e) => setUpdatedContent(e.target.value)}
               placeholder="Edit your comment"
+              className="comment-input"
             />
             <div className="buttons">
               <button onClick={handleEditComment} className="save-button">Save</button>
@@ -113,12 +107,20 @@ export function Comment() {
           </div>
         ) : (
           <>
-            <p>{comment.Content}</p>
-            <p>
-              <strong>Created at:</strong> {new Date(comment.CreatedAt).toLocaleDateString()}
-            </p>
-            <button onClick={() => setEditMode(true)} className="edit-button">Edit Comment</button>
-            <button onClick={handleDeleteComment} className="delete-button">Delete Comment</button>
+            <div className="comment-content">
+              <p>{comment.Content}</p>
+              <p className="comment-timestamp">
+                <strong>Created at:</strong> {new Date(comment.CreatedAt).toLocaleDateString()}
+              </p>
+            </div>
+            
+            {/* Conditionally render buttons based on authentication */}
+            {auth?.accessToken && (
+              <div className="comment-actions">
+                <button onClick={() => setEditMode(true)} className="edit-button">Edit</button>
+                <button onClick={handleDeleteComment} className="delete-button">Delete</button>
+              </div>
+            )}
           </>
         )}
       </div>

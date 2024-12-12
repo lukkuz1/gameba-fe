@@ -1,169 +1,229 @@
+/* Game.css */
+
+/* General styles for the game page */
 .game-page {
-  font-family: 'Arial', sans-serif;
-  background-color: #f9f9f9;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin: 20px;
   padding: 20px;
-  max-width: 1000px;
-  margin: 0 auto;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
 }
 
-/* Edit Form Styling */
-.game-edit-form {
-  background-color: #ffffff;
-  padding: 30px;
-  border-radius: 12px;
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-  max-width: 700px;
-  margin: 20px auto;
-  text-align: left;
+/* Loading and error messages */
+.game-page__loading,
+.game-page__error {
+  text-align: center;
+  font-size: 1.1rem;
+  color: #f44336; /* Error color */
+  font-weight: 600;
+  margin-top: 20px;
 }
 
-.game-edit-form h2 {
-  font-size: 2rem;
-  margin-bottom: 20px;
+/* Title and description */
+.game-page__title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 12px;
   color: #333;
 }
 
-input, textarea {
-  width: 100%;
-  padding: 12px;
-  margin: 10px 0;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  font-size: 1rem;
+.game-page__description {
+  font-size: 1.1rem;
+  color: #555;
+  margin-bottom: 20px;
+  line-height: 1.5;
+  word-wrap: break-word;
 }
 
-textarea {
+/* Button styles */
+.game-page__btn--primary,
+.game-page__btn--secondary,
+.game-page__btn--danger {
+  font-size: 1rem;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  display: inline-block;
+  text-align: center;
+}
+
+.game-page__btn--primary {
+  background-color: #4caf50;
+  color: white;
+}
+
+.game-page__btn--secondary {
+  background-color: #f5f5f5;
+  color: #333;
+}
+
+.game-page__btn--danger {
+  background-color: #f44336;
+  color: white;
+}
+
+.game-page__btn--primary:hover {
+  background-color: #45a049;
+  transform: translateY(-2px);
+}
+
+.game-page__btn--secondary:hover {
+  background-color: #e0e0e0;
+  transform: translateY(-2px);
+}
+
+.game-page__btn--danger:hover {
+  background-color: #e53935;
+  transform: translateY(-2px);
+}
+
+/* Edit form styles */
+.game-page__edit-form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.game-page__input-field,
+.game-page__textarea-field {
+  width: 100%;
+  padding: 12px;
+  font-size: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #fff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.game-page__input-field:focus,
+.game-page__textarea-field:focus {
+  border-color: #4caf50;
+  box-shadow: 0 0 4px rgba(76, 175, 80, 0.5);
+  outline: none;
+}
+
+.game-page__textarea-field {
+  resize: vertical;
   min-height: 120px;
 }
 
-.form-actions {
-  display: flex;
-  justify-content: space-between;
-}
-
-.save-button, .cancel-button {
-  padding: 12px 20px;
-  font-size: 1rem;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-}
-
-/* Orange Themed Buttons */
-.save-button {
-  background-color: #ff7043;  /* Orange Color */
-  color: white;
-}
-
-.cancel-button {
-  background-color: #f44336; /* Red for cancel */
-  color: white;
-}
-
-.save-button:hover {
-  background-color: #ff5722; /* Darker orange on hover */
-}
-
-.cancel-button:hover {
-  background-color: #e53935; /* Darker red on hover */
-}
-
-/* Game Details Styling */
-.game-title {
-  font-size: 2.5rem;
-  margin-bottom: 10px;
-}
-
-.game-description {
-  font-size: 1.2rem;
-  color: #555;
-}
-
-.game-buttons {
-  display: flex;
-  gap: 15px;
-}
-
-.edit-button, .delete-button {
-  padding: 10px 20px;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-}
-
-/* Edit & Delete Buttons */
-.edit-button {
-  background-color: #ff7043; /* Orange color for Edit button */
-  color: white;
-}
-
-.delete-button {
-  background-color: #f44336; /* Red color for Delete button */
-  color: white;
-}
-
-.edit-button:hover {
-  background-color: #f44336; /* Red color for Delete button */
-}
-
-.delete-button:hover {
-  background-color: #e53935; /* Darker red on hover */
-}
-
-/* Comments Section Styling */
-.comments-section {
+/* Game details section */
+.game-page__details {
   margin-top: 30px;
+  font-size: 1.1rem;
+  color: #333;
 }
 
-.add-comment textarea {
-  width: 100%;
-  padding: 10px;
-  border-radius: 8px;
+.game-page__details p {
+  margin-bottom: 12px;
+}
+
+.game-page__details strong {
+  font-weight: 600;
+  color: #222;
+}
+
+/* Comments section */
+.game-page__comments {
+  margin-top: 40px;
+}
+
+.game-page__comment-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 30px;
+}
+
+.game-page__comment-form textarea {
+  padding: 12px;
   font-size: 1rem;
   border: 1px solid #ddd;
-}
-
-.comment-button {
-  background-color: #ff7043; /* Orange color for comment button */
-  color: white;
-  padding: 10px 20px;
-  border: none;
   border-radius: 8px;
-  cursor: pointer;
+  background-color: #fff;
+  resize: vertical;
+  min-height: 120px;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-.comment-button:hover {
-  background-color: #ff5722; /* Darker orange on hover */
+.game-page__comment-form textarea:focus {
+  border-color: #4caf50;
+  box-shadow: 0 0 4px rgba(76, 175, 80, 0.5);
+  outline: none;
 }
 
-.comments-list {
+.game-page__comments-list {
   list-style-type: none;
   padding: 0;
+  margin-top: 20px;
 }
 
-.comment-card {
-  background-color: #f4f4f4;
+.game-page__comment-item {
+  margin-bottom: 20px;
+}
+
+.game-page__comment-card {
+  background-color: #fff;
+  border: 1px solid #ddd;
   padding: 20px;
-  margin: 10px 0;
-  border-radius: 10px;
+  border-radius: 8px;
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
 }
 
-.comment-user {
+.game-page__comment-card:hover {
+  transform: translateY(-5px);
+}
+
+.game-page__comment-header {
   display: flex;
   justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.game-page__comment-author {
+  font-weight: 600;
+  color: #333;
+}
+
+.game-page__comment-timestamp {
   font-size: 0.9rem;
-  color: #555;
+  color: #777;
 }
 
-.username {
-  font-weight: bold;
+.game-page__comment-content {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #444;
 }
 
-.timestamp {
-  font-style: italic;
-  color: #888;
-}
+/* Responsive styles */
+@media (max-width: 768px) {
+  .game-page__edit-form {
+    gap: 15px;
+  }
 
-.comments-list li {
-  margin-bottom: 10px;
+  .game-page__input-field,
+  .game-page__textarea-field {
+    font-size: 0.95rem;
+  }
+
+  .game-page__comment-form textarea {
+    font-size: 0.95rem;
+  }
+
+  .game-page__btn--primary,
+  .game-page__btn--secondary,
+  .game-page__btn--danger {
+    font-size: 0.9rem;
+    padding: 10px 18px;
+  }
+
+  .game-page__comment-card {
+    padding: 15px;
+  }
 }

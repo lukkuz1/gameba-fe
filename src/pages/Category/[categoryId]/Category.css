@@ -1,141 +1,236 @@
-.category-page {
-  font-family: 'Arial', sans-serif;
-  background-color: #f9f9f9;
-  padding: 20px;
-  text-align: center;
+/* General page container */
+.category-container {
   max-width: 1200px;
   margin: 0 auto;
+  padding: 20px;
+  font-family: 'Arial', sans-serif;
+  background-color: #f4f7fc; /* Light background */
+  color: #333;
 }
 
-/* Header Styling */
+/* Header and category title */
 .category-header {
   text-align: center;
   margin-bottom: 40px;
-  background: linear-gradient(45deg, #ff7043, #ff5722); /* Orange gradient */
-  color: white;
-  padding: 40px 20px;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  display: flex; /* Added flexbox */
-  justify-content: center; /* Center buttons */
-  gap: 20px; /* Space between buttons */
 }
 
 .category-title {
-  font-size: 3rem;
-  font-weight: bold;
-  margin-bottom: 10px;
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #ff6347; /* Tomato color */
 }
 
-/* Button Styles for Delete, Edit, and Add Game */
-.delete-button, .edit-button, .add-game-button {
-  padding: 12px 20px;
+/* Buttons - Edit, Delete, Add Game */
+.category-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-bottom: 30px;
+}
+
+.category-button {
+  padding: 12px 24px;
+  font-size: 1rem;
+  font-weight: 600;
   border: none;
   border-radius: 8px;
+  cursor: pointer;
+  background-color: #ff6347;
+  color: white;
+  transition: background-color 0.3s ease;
+}
+
+.category-button:hover {
+  background-color: #ff5e3a;
+}
+
+.category-button:focus {
+  outline: none;
+  box-shadow: 0 0 4px rgba(255, 99, 71, 0.5);
+}
+
+/* Edit Category Form */
+.edit-category-form {
+  max-width: 600px;
+  margin: 0 auto;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.edit-category-form h2 {
+  font-size: 1.8rem;
+  margin-bottom: 20px;
+  text-align: center;
+  color: #333;
+}
+
+.edit-category-form input,
+.edit-category-form textarea {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 15px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
   font-size: 1rem;
+  color: #333;
+  background-color: #f9f9f9;
+  transition: all 0.3s ease;
+}
+
+.edit-category-form input:focus,
+.edit-category-form textarea:focus {
+  outline: none;
+  border-color: #ff6347;
+  background-color: #fff;
+}
+
+.edit-category-form button {
+  width: 100%;
+  padding: 12px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  background-color: #ff6347;
+  border: none;
+  color: white;
+  border-radius: 8px;
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
 
-.delete-button {
-  background-color: #f44336; /* Red */
+.edit-category-form button:hover {
+  background-color: #ff5e3a;
 }
 
-.delete-button:hover {
-  background-color: #e53935; /* Darker Red */
-}
-
-.edit-button {
-  background-color: #4CAF50; /* Green */
-}
-
-.edit-button:hover {
-  background-color: #45a049; /* Darker Green */
-}
-
-/* Add Game Button */
-.add-game-button {
-  background-color: #2196F3; /* Blue */
-  color: white;
-}
-
-.add-game-button:hover {
-  background-color: #1976D2; /* Darker Blue */
-}
-
-/* Edit / Add Forms */
-.edit-category-form, .add-game-form {
-  background: white;
+/* Category Details */
+.category-details {
+  background-color: #fff;
   padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-input, textarea {
-  width: 100%;
-  padding: 12px;
-  margin: 10px 0;
   border-radius: 8px;
-  border: 2px solid #ddd;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-button {
-  background-color: #ff5722;
-  color: white;
-  padding: 12px 20px;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
+.category-details p {
+  font-size: 1.1rem;
+  margin-bottom: 15px;
 }
 
-button:hover {
-  background-color: #e64a19;
+.category-details strong {
+  font-weight: 600;
 }
 
-/* Games List Styling */
+/* Games Section */
 .games-section {
   margin-top: 40px;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
+.games-section h2 {
+  font-size: 1.8rem;
+  margin-bottom: 20px;
+}
+
+.add-game-form {
+  margin-bottom: 30px;
+  background-color: #f9f9f9;
+  padding: 20px;
+  border-radius: 8px;
+}
+
+.add-game-form h3 {
+  font-size: 1.6rem;
+  margin-bottom: 15px;
+}
+
+.add-game-form input,
+.add-game-form textarea {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 15px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  font-size: 1rem;
+  color: #333;
+  background-color: #f9f9f9;
+  transition: all 0.3s ease;
+}
+
+.add-game-form input:focus,
+.add-game-form textarea:focus {
+  outline: none;
+  border-color: #ff6347;
+  background-color: #fff;
+}
+
+.add-game-form button {
+  width: 100%;
+  padding: 12px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  background-color: #ff6347;
+  border: none;
+  color: white;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.add-game-form button:hover {
+  background-color: #ff5e3a;
+}
+
+/* Game Cards */
 .games-list {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: 20px;
-  justify-content: center;
 }
 
 .game-card {
-  background: #fff;
-  border-radius: 10px;
+  background-color: #fff;
   padding: 20px;
+  border-radius: 8px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  width: 250px;
-  text-align: center;
-  transition: transform 0.3s ease;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .game-card:hover {
-  transform: scale(1.05);
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
 
 .game-card h3 {
   font-size: 1.5rem;
-  color: #333;
+  margin-bottom: 10px;
+}
+
+.game-card p {
+  font-size: 1rem;
+  color: #666;
 }
 
 .game-link {
-  display: block;
-  margin-top: 10px;
-  color: #2196F3;
+  font-size: 1.1rem;
+  color: #ff6347;
   text-decoration: none;
+  margin-top: 10px;
+  display: inline-block;
 }
 
 .game-link:hover {
   text-decoration: underline;
 }
 
-.loading, .error {
+/* Loading and Error States */
+.loading,
+.error {
   font-size: 1.5rem;
+  font-weight: 600;
+  color: #ff6347;
   text-align: center;
-  color: #f44336;
+  margin-top: 40px;
 }

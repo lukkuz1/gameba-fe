@@ -7,7 +7,7 @@ import './Game.css';
 
 export function Game() {
   const { categoryId, gameId } = useParams();
-  const { auth } = useAuth();
+  const { auth } = useAuth(); // Get the authentication context
   const navigate = useNavigate();
 
   const [game, setGame] = useState(null);
@@ -130,104 +130,120 @@ export function Game() {
   };
 
   if (loading) {
-    return <div className="loading">Loading game details...</div>;
+    return <div className="game-page__loading">Loading game details...</div>;
   }
 
   if (error) {
-    return <div className="error">{error}</div>;
+    return <div className="game-page__error">{error}</div>;
   }
 
   if (!game) {
-    return <div className="error">Game not found.</div>;
+    return <div className="game-page__error">Game not found.</div>;
   }
 
   return (
     <div className="game-page">
-      <div className="game-header">
+      <div className="game-page__header">
         {editMode ? (
-          <div className="game-edit-form">
+          <div className="game-page__edit-form">
             <h2>Edit Game Details</h2>
             <input
               type="text"
               value={updatedGame.Title}
               onChange={(e) => setUpdatedGame({ ...updatedGame, Title: e.target.value })}
               placeholder="Game Title"
+              className="game-page__input-field"
             />
             <textarea
               value={updatedGame.Description}
               onChange={(e) => setUpdatedGame({ ...updatedGame, Description: e.target.value })}
               placeholder="Game Description"
+              className="game-page__textarea-field"
             />
             <input
               type="number"
               value={updatedGame.Rating}
               onChange={(e) => setUpdatedGame({ ...updatedGame, Rating: e.target.value })}
               placeholder="Game Rating"
+              className="game-page__input-field"
             />
             <input
               type="date"
               value={updatedGame.ReleaseDate}
               onChange={(e) => setUpdatedGame({ ...updatedGame, ReleaseDate: e.target.value })}
-              placeholder="Release Date"
+              className="game-page__input-field"
             />
             <input
               type="text"
               value={updatedGame.Developer}
               onChange={(e) => setUpdatedGame({ ...updatedGame, Developer: e.target.value })}
               placeholder="Developer"
+              className="game-page__input-field"
             />
             <input
               type="text"
               value={updatedGame.Platform}
               onChange={(e) => setUpdatedGame({ ...updatedGame, Platform: e.target.value })}
               placeholder="Platform"
+              className="game-page__input-field"
             />
-            <div className="form-actions">
-              <button onClick={handleEditGame} className="save-button">Save Changes</button>
-              <button onClick={() => setEditMode(false)} className="cancel-button">Cancel</button>
+            <div className="game-page__form-actions">
+              <button onClick={handleEditGame} className="game-page__btn--primary">Save Changes</button>
+              <button onClick={() => setEditMode(false)} className="game-page__btn--secondary">Cancel</button>
             </div>
           </div>
         ) : (
           <>
-            <h1 className="game-title">{game.Title}</h1>
-            <p className="game-description">{game.Description}</p>
-            <div className="game-buttons">
-              <button onClick={() => setEditMode(true)} className="edit-button">Edit Game</button>
-              <button onClick={handleDeleteGame} className="delete-button">Delete Game</button>
+            <h1 className="game-page__title">{game.Title}</h1>
+            <p className="game-page__description">{game.Description}</p>
+            <div className="game-page__actions">
+              {/* Conditionally render Edit and Delete buttons based on auth */}
+              {auth?.accessToken && (
+                <>
+                  <button onClick={() => setEditMode(true)} className="game-page__btn--primary">Edit Game</button>
+                  <button onClick={handleDeleteGame} className="game-page__btn--danger">Delete Game</button>
+                </>
+              )}
             </div>
           </>
         )}
       </div>
 
-      <div className="game-details">
+      <div className="game-page__details">
         <p><strong>Rating:</strong> {game.Rating}</p>
         <p><strong>Release Date:</strong> {new Date(game.ReleaseDate).toLocaleDateString()}</p>
         <p><strong>Developer:</strong> {game.Developer}</p>
         <p><strong>Platform:</strong> {game.Platform}</p>
       </div>
 
-      <div className="comments-section">
+      <div className="game-page__comments">
         <h2>Comments</h2>
-        <div className="add-comment">
-          <textarea
-            value={newComment}
-            onChange={(e) => setNewComment(e.target.value)}
-            placeholder="Add a comment..."
-          />
-          <button onClick={handleAddComment} className="comment-button">Post Comment</button>
+        <div className="game-page__comment-form">
+          {/* Conditionally render Add Comment button based on auth */}
+          {auth?.accessToken && (
+            <>
+              <textarea
+                value={newComment}
+                onChange={(e) => setNewComment(e.target.value)}
+                placeholder="Add a comment..."
+                className="game-page__textarea-field"
+              />
+              <button onClick={handleAddComment} className="game-page__btn--primary">Post Comment</button>
+            </>
+          )}
         </div>
 
         {comments.length > 0 ? (
-          <ul className="comments-list">
+          <ul className="game-page__comments-list">
             {comments.map((comment) => (
-              <li key={comment.Id}>
+              <li key={comment.Id} className="game-page__comment-item">
                 <Link to={`/categories/${categoryId}/games/${gameId}/comments/${comment.Id}`}>
-                  <div className="comment-card">
-                    <div className="comment-user">
-                      <span className="username">{comment.UserName}</span>
-                      <span className="timestamp">{new Date(comment.CreatedAt).toLocaleString()}</span>
+                  <div className="game-page__comment-card">
+                    <div className="game-page__comment-header">
+                      <span className="game-page__comment-author">{comment.UserName}</span>
+                      <span className="game-page__comment-timestamp">{new Date(comment.CreatedAt).toLocaleString()}</span>
                     </div>
-                    <p>{comment.Content}</p>
+                    <p className="game-page__comment-content">{comment.Content}</p>
                   </div>
                 </Link>
               </li>

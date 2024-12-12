@@ -16,7 +16,7 @@ export function Category() {
   const [editData, setEditData] = useState({});
   const [isAddingGame, setIsAddingGame] = useState(false);
   const [newGameData, setNewGameData] = useState({ title: "", description: "" });
-  const { auth } = useAuth();
+  const { auth } = useAuth();  // Access auth context
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -137,22 +137,23 @@ export function Category() {
   }
 
   return (
-    <div className="category-page">
+    <div className="category-container">
       <div className="category-header">
         <h1 className="category-title">{category.Name}</h1>
       </div>
 
-      <div>
-          <button onClick={handleDeleteCategory} className="delete-button">
-            Delete Category
-          </button>
-          <button onClick={handleEditToggle} className="edit-button">
+      {/* Conditionally render buttons based on user's authentication */}
+      {auth?.accessToken && (
+        <div className="category-buttons">
+          <button onClick={handleDeleteCategory} className="category-button">Delete Category</button>
+          <button onClick={handleEditToggle} className="category-button">
             {isEditing ? "Cancel Edit" : "Edit Category"}
           </button>
-          <button onClick={handleAddGameToggle} className="add-game-button">
+          <button onClick={handleAddGameToggle} className="category-button">
             {isAddingGame ? "Cancel Add Game" : "Add New Game"}
           </button>
         </div>
+      )}
 
       {isEditing ? (
         <div className="edit-category-form">
@@ -176,15 +177,11 @@ export function Category() {
             onChange={handleEditChange}
             placeholder="Additional Description"
           />
-          <button onClick={handleEditSubmit} className="save-button">
-            Save Changes
-          </button>
+          <button onClick={handleEditSubmit}>Save Changes</button>
         </div>
       ) : (
         <div className="category-details">
           <p><strong>Description:</strong> {category.Description}</p>
-          <p><strong>Additional Description:</strong> {category.AdditionalDescription || "N/A"}</p>
-          <p><strong>Rating:</strong> {category.Rating}</p>
         </div>
       )}
 
@@ -207,9 +204,7 @@ export function Category() {
               onChange={handleNewGameChange}
               placeholder="Game Description"
             />
-            <button onClick={handleAddGameSubmit} className="save-button">
-              Add Game
-            </button>
+            <button onClick={handleAddGameSubmit}>Add Game</button>
           </div>
         )}
 
