@@ -12,7 +12,7 @@
 .comment-header {
   text-align: center;
   margin-bottom: 30px;
-  background: linear-gradient(45deg, #42a5f5, #007bff); /* Blue gradient */
+  background: linear-gradient(45deg, #ff7043, #ff5722); /* Orange gradient */
   color: #fff;
   padding: 20px;
   border-radius: 10px;
@@ -44,7 +44,7 @@
 
 /* Highlight for strong text */
 .comment-card strong {
-  color: #007bff; /* Blue */
+  color: #ff5722; /* Darker orange for strong text */
 }
 
 /* Edit Form */
@@ -56,10 +56,11 @@
   border: 1px solid #ddd;
   font-size: 1rem;
   line-height: 1.5;
+  min-height: 120px;
 }
 
 .edit-form .buttons button {
-  background-color: #42a5f5;
+  background: linear-gradient(45deg, #ff7043, #ff5722); /* Orange gradient */
   color: white;
   border: none;
   padding: 10px 20px;
@@ -70,12 +71,12 @@
 }
 
 .edit-form .buttons button:hover {
-  background-color: #007bff;
+  background: linear-gradient(45deg, #ff5722, #ff7043); /* Reverse gradient for hover effect */
 }
 
 /* Buttons */
 .buttons button {
-  background-color: #42a5f5;
+  background: linear-gradient(45deg, #ff7043, #ff5722); /* Orange gradient */
   color: white;
   border: none;
   padding: 10px 20px;
@@ -86,8 +87,39 @@
 }
 
 .buttons button:hover {
-  background-color: #007bff;
+  background: linear-gradient(45deg, #ff5722, #ff7043); /* Reverse gradient for hover effect */
 }
+
+/* Specific buttons for save, cancel, edit, delete */
+.save-button {
+  background-color: #4caf50; /* Green */
+}
+
+.save-button:hover {
+  background-color: #388e3c; /* Darker Green */
+}
+
+.cancel-button {
+  background-color: #f44336; /* Red */
+}
+
+.cancel-button:hover {
+  background-color: #e53935; /* Darker Red */
+}
+
+.edit-button {
+  background: linear-gradient(45deg, #ff7043, #ff5722); /* Orange gradient */
+}
+
+.edit-button:hover {
+  background: linear-gradient(45deg, #ff5722, #ff7043); /* Reverse gradient */
+}
+
+.delete-button {
+  background-color: #f44336; /* Red color for Delete button */
+  color: white;
+}
+
 
 /* Loading and Error Messages */
 .loading,

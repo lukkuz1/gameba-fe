@@ -25,32 +25,50 @@ const getComment = async (categoryId, gameId, commentId) => {
 };
 
 // Add a new comment to a game
-const addComment = async (categoryId, gameId, commentData) => {
+const addComment = async (categoryId, gameId, commentData, options = {}) => {
   try {
-    const response = await axios.post(`${BASE_URL}/${categoryId}/games/${gameId}/comments`, commentData);
+    const response = await axios.post(
+      `${BASE_URL}/${categoryId}/games/${gameId}/comments`,
+      commentData,
+      options
+    );
     return response.data;
   } catch (error) {
-    throw new Error(error.message || 'Failed to add comment');
+    throw new Error(
+      error.response?.data?.message || "Failed to add comment"
+    );
   }
 };
 
+
 // Update an existing comment for a game
-const updateComment = async (categoryId, gameId, commentId, commentData) => {
+const updateComment = async (categoryId, gameId, commentId, commentData, options = {}) => {
   try {
-    const response = await axios.put(`${BASE_URL}/${categoryId}/games/${gameId}/comments/${commentId}`, commentData);
+    const response = await axios.put(
+      `${BASE_URL}/${categoryId}/games/${gameId}/comments/${commentId}`,
+      commentData,
+      options // Passing headers (e.g., Authorization token)
+    );
     return response.data;
   } catch (error) {
     throw new Error(error.message || `Failed to update comment with ID: ${commentId} for game ID: ${gameId} in category ID: ${categoryId}`);
   }
 };
 
+
 // Delete a comment from a game
-const deleteComment = async (categoryId, gameId, commentId) => {
+const deleteComment = async (categoryId, gameId, commentId, options = {}) => {
   try {
-    const response = await axios.delete(`${BASE_URL}/${categoryId}/games/${gameId}/comments/${commentId}`);
+    const response = await axios.delete(
+      `${BASE_URL}/${categoryId}/games/${gameId}/comments/${commentId}`,
+      options
+    );
     return response.data;
   } catch (error) {
-    throw new Error(error.message || `Failed to delete comment with ID: ${commentId} for game ID: ${gameId} in category ID: ${categoryId}`);
+    throw new Error(
+      error.response?.data?.message ||
+      `Failed to delete comment with ID: ${commentId} for game ID: ${gameId} in category ID: ${categoryId}`
+    );
   }
 };
 

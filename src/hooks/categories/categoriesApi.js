@@ -35,22 +35,29 @@ const addCategorie = async (categoryData, token) => {
   }
 };
 // Update an existing category
-const updateCategorie = async (id, categoryData) => {
+const updateCategorie = async (id, categoryData, options = {}) => {
   try {
-    const response = await axios.put(`${BASE_URL}/${id}`, categoryData);
+    const response = await axios.put(`${BASE_URL}/${id}`, categoryData, {
+      headers: {
+        Authorization: `Bearer ${options.token || ""}`, // Add Bearer token from options
+        ...options.headers, // Merge other headers from options
+      },
+      ...options, // Merge other options like params, timeout, etc.
+    });
     return response.data;
   } catch (error) {
     throw new Error(error.message || `Failed to update category with ID: ${id}`);
   }
 };
 
+
 // Delete a category by ID
-const deleteCategorie = async (id) => {
+const deleteCategorie = async (id, options = {}) => {
   try {
-    const response = await axios.delete(`${BASE_URL}/${id}`);
+    const response = await axios.delete(`${BASE_URL}/${id}`, options);
     return response.data;
   } catch (error) {
-    throw new Error(error.message || `Failed to delete category with ID: ${id}`);
+    throw new Error(error.response?.data?.message || `Failed to delete category with ID: ${id}`);
   }
 };
 

@@ -20,9 +20,11 @@ export function Game() {
     Title: '',
     Description: '',
     Rating: '',
+    ReleaseDate: '',
+    Developer: '',
+    Platform: ''
   });
 
-  // Fetch game details
   useEffect(() => {
     const fetchGameData = async () => {
       try {
@@ -32,6 +34,9 @@ export function Game() {
           Title: gameData.Title,
           Description: gameData.Description,
           Rating: gameData.Rating,
+          ReleaseDate: gameData.ReleaseDate,
+          Developer: gameData.Developer,
+          Platform: gameData.Platform
         });
         setLoading(false);
       } catch (err) {
@@ -43,7 +48,6 @@ export function Game() {
     fetchGameData();
   }, [categoryId, gameId]);
 
-  // Fetch comments
   useEffect(() => {
     const fetchComments = async () => {
       try {
@@ -57,35 +61,71 @@ export function Game() {
     fetchComments();
   }, [categoryId, gameId]);
 
-  // Handle game update
   const handleEditGame = async () => {
+    if (!auth?.accessToken) {
+      alert("You must be logged in to edit this game.");
+      return;
+    }
+
     try {
-      const updatedGameData = await updateGame(categoryId, gameId, updatedGame);
+      const updatedGameData = await updateGame(
+        categoryId,
+        gameId,
+        updatedGame,
+        { headers: { Authorization: `Bearer ${auth.accessToken}` } }
+      );
       setGame(updatedGameData);
       setEditMode(false);
+      alert("Game updated successfully.");
     } catch (err) {
       setError('Error updating game: ' + err.message);
     }
   };
 
-  // Handle game deletion
   const handleDeleteGame = async () => {
+    if (!auth?.accessToken) {
+      alert("You must be logged in to delete this game.");
+      return;
+    }
+
+    if (!window.confirm("Are you sure you want to delete this game?")) {
+      return;
+    }
+
     try {
-      await deleteGame(categoryId, gameId);
+      await deleteGame(categoryId, gameId, {
+        headers: { Authorization: `Bearer ${auth.accessToken}` },
+      });
+      alert("Game deleted successfully.");
       navigate(`/categories/${categoryId}`);
     } catch (err) {
-      setError('Error deleting game: ' + err.message);
+      console.error("Error deleting game:", err);
+      setError("Error deleting game: " + (err.response?.data?.message || err.message));
     }
   };
 
-  // Handle adding a new comment
   const handleAddComment = async () => {
+    if (!auth?.accessToken) {
+      alert("You must be logged in to add a comment.");
+      return;
+    }
+
+    if (!newComment.trim()) {
+      alert("Comment content cannot be empty.");
+      return;
+    }
+
     try {
-      const newCommentData = await addComment(categoryId, gameId, { Content: newComment });
+      const newCommentData = await addComment(categoryId, gameId, 
+        { Content: newComment }, 
+        { headers: { Authorization: `Bearer ${auth.accessToken}` } }
+      );
       setComments((prevComments) => [...prevComments, newCommentData]);
       setNewComment('');
+      alert("Comment added successfully.");
     } catch (err) {
-      setError('Error adding comment: ' + err.message);
+      console.error("Error adding comment:", err);
+      setError("Error adding comment: " + (err.response?.data?.message || err.message));
     }
   };
 
@@ -105,7 +145,8 @@ export function Game() {
     <div className="game-page">
       <div className="game-header">
         {editMode ? (
-          <div>
+          <div className="game-edit-form">
+            <h2>Edit Game Details</h2>
             <input
               type="text"
               value={updatedGame.Title}
@@ -123,26 +164,46 @@ export function Game() {
               onChange={(e) => setUpdatedGame({ ...updatedGame, Rating: e.target.value })}
               placeholder="Game Rating"
             />
-            <button onClick={handleEditGame}>Save</button>
-            <button onClick={() => setEditMode(false)}>Cancel</button>
+            <input
+              type="date"
+              value={updatedGame.ReleaseDate}
+              onChange={(e) => setUpdatedGame({ ...updatedGame, ReleaseDate: e.target.value })}
+              placeholder="Release Date"
+            />
+            <input
+              type="text"
+              value={updatedGame.Developer}
+              onChange={(e) => setUpdatedGame({ ...updatedGame, Developer: e.target.value })}
+              placeholder="Developer"
+            />
+            <input
+              type="text"
+              value={updatedGame.Platform}
+              onChange={(e) => setUpdatedGame({ ...updatedGame, Platform: e.target.value })}
+              placeholder="Platform"
+            />
+            <div className="form-actions">
+              <button onClick={handleEditGame} className="save-button">Save Changes</button>
+              <button onClick={() => setEditMode(false)} className="cancel-button">Cancel</button>
+            </div>
           </div>
         ) : (
           <>
             <h1 className="game-title">{game.Title}</h1>
             <p className="game-description">{game.Description}</p>
-            <button onClick={() => setEditMode(true)}>Edit Game</button>
-            <button onClick={handleDeleteGame}>Delete Game</button>
+            <div className="game-buttons">
+              <button onClick={() => setEditMode(true)} className="edit-button">Edit Game</button>
+              <button onClick={handleDeleteGame} className="delete-button">Delete Game</button>
+            </div>
           </>
         )}
       </div>
 
       <div className="game-details">
-        <p>
-          <strong>Rating:</strong> {game.Rating}
-        </p>
-        <p>
-          <strong>Release Date:</strong> {new Date(game.ReleaseDate).toLocaleDateString()}
-        </p>
+        <p><strong>Rating:</strong> {game.Rating}</p>
+        <p><strong>Release Date:</strong> {new Date(game.ReleaseDate).toLocaleDateString()}</p>
+        <p><strong>Developer:</strong> {game.Developer}</p>
+        <p><strong>Platform:</strong> {game.Platform}</p>
       </div>
 
       <div className="comments-section">
@@ -153,8 +214,9 @@ export function Game() {
             onChange={(e) => setNewComment(e.target.value)}
             placeholder="Add a comment..."
           />
-          <button onClick={handleAddComment}>Post Comment</button>
+          <button onClick={handleAddComment} className="comment-button">Post Comment</button>
         </div>
+
         {comments.length > 0 ? (
           <ul className="comments-list">
             {comments.map((comment) => (

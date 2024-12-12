@@ -34,22 +34,50 @@ export function Comment() {
 
   // Handle comment update
   const handleEditComment = async () => {
+    if (!auth?.accessToken) {
+      alert("You must be logged in to edit this comment.");
+      return;
+    }
+  
     try {
-      const updatedComment = await updateComment(categoryId, gameId, commentId, { Content: updatedContent });
+      const updatedComment = await updateComment(
+        categoryId,
+        gameId,
+        commentId,
+        { Content: updatedContent },
+        { headers: { Authorization: `Bearer ${auth.accessToken}` } }
+      );
       setComment(updatedComment);
       setEditMode(false);
+      alert("Comment updated successfully.");
     } catch (err) {
-      setError('Error updating comment: ' + err.message);
+      setError('Error updating comment: ' + (err.response?.data?.message || err.message));
     }
   };
+  
 
   // Handle comment deletion
   const handleDeleteComment = async () => {
+    if (!auth?.accessToken) {
+      alert("You must be logged in to delete this comment.");
+      return;
+    }
+  
+    if (!window.confirm("Are you sure you want to delete this comment?")) {
+      return;
+    }
+  
     try {
-      await deleteComment(categoryId, gameId, commentId);
+      await deleteComment(categoryId, gameId, commentId, {
+        headers: { Authorization: `Bearer ${auth.accessToken}` },
+      });
+      alert("Comment deleted successfully.");
       navigate(`/categories/${categoryId}/games/${gameId}`);
     } catch (err) {
-      setError('Error deleting comment: ' + err.message);
+      console.error("Error deleting comment:", err);
+      setError(
+        "Error deleting comment: " + (err.response?.data?.message || err.message)
+      );
     }
   };
 
@@ -79,8 +107,8 @@ export function Comment() {
               placeholder="Edit your comment"
             />
             <div className="buttons">
-              <button onClick={handleEditComment}>Save</button>
-              <button onClick={() => setEditMode(false)}>Cancel</button>
+              <button onClick={handleEditComment} className="save-button">Save</button>
+              <button onClick={() => setEditMode(false)} className="cancel-button">Cancel</button>
             </div>
           </div>
         ) : (
@@ -89,10 +117,8 @@ export function Comment() {
             <p>
               <strong>Created at:</strong> {new Date(comment.CreatedAt).toLocaleDateString()}
             </p>
-            <div className="buttons">
-              <button onClick={() => setEditMode(true)}>Edit Comment</button>
-              <button onClick={handleDeleteComment}>Delete Comment</button>
-            </div>
+            <button onClick={() => setEditMode(true)} className="edit-button">Edit Comment</button>
+            <button onClick={handleDeleteComment} className="delete-button">Delete Comment</button>
           </>
         )}
       </div>

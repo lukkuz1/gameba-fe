@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../../hooks/authentification/authcontext";
 import { addGame } from "../../../hooks/games/gamesApi";
-import { deleteCategorie, getCategorie } from "../../../hooks/categories/categoriesApi";
+import { deleteCategorie, getCategorie, updateCategorie } from "../../../hooks/categories/categoriesApi";
 import { getGames } from "../../../hooks/games/gamesApi";
 import "./Category.css";
 
@@ -15,10 +15,7 @@ export function Category() {
   const [isEditing, setIsEditing] = useState(false);
   const [editData, setEditData] = useState({});
   const [isAddingGame, setIsAddingGame] = useState(false);
-  const [newGameData, setNewGameData] = useState({
-    title: "",
-    description: "",
-  });
+  const [newGameData, setNewGameData] = useState({ title: "", description: "" });
   const { auth } = useAuth();
   const navigate = useNavigate();
 
@@ -48,6 +45,34 @@ export function Category() {
     fetchGames();
   }, [categoryId]);
 
+  const handleEditToggle = () => {
+    setIsEditing(!isEditing);
+  };
+
+  const handleEditChange = (e) => {
+    const { name, value } = e.target;
+    setEditData((prevData) => ({ ...prevData, [name]: value }));
+  };
+
+  const handleEditSubmit = async () => {
+    if (!auth?.accessToken) {
+      alert("You must be logged in to edit categories.");
+      return;
+    }
+
+    try {
+      const updatedCategory = await updateCategorie(categoryId, editData, {
+        headers: { Authorization: `Bearer ${auth.accessToken}` },
+      });
+      setCategory(updatedCategory);
+      setIsEditing(false);
+      alert("Category updated successfully.");
+    } catch (error) {
+      console.error("Failed to update category:", error);
+      alert("Failed to update category. Please try again.");
+    }
+  };
+
   const handleDeleteCategory = async () => {
     if (!auth?.accessToken) {
       alert("You must be logged in to delete categories.");
@@ -63,14 +88,10 @@ export function Category() {
         headers: { Authorization: `Bearer ${auth.accessToken}` },
       });
       alert("Category deleted successfully.");
-      navigate("/categories"); // Redirect to categories list
+      navigate("/"); // Redirect to categories list
     } catch (error) {
       console.error("Failed to delete category:", error);
-      if (error.response?.status === 403 || error.response?.status === 401) {
-        alert("Unauthorized: You do not have permission to delete this category.");
-      } else {
-        alert("Failed to delete category. Please try again.");
-      }
+      alert("Failed to delete category. Please try again.");
     }
   };
 
@@ -83,32 +104,23 @@ export function Category() {
     setNewGameData((prevData) => ({ ...prevData, [name]: value }));
   };
 
-  const handleAddGame = async () => {
+  const handleAddGameSubmit = async () => {
     if (!auth?.accessToken) {
-      alert("You must be logged in to add games.");
+      alert("You must be logged in to add a game.");
       return;
     }
 
-    const gameData = {
-      ...newGameData,
-      categoryId: parseInt(categoryId, 10),
-    };
-
     try {
-      const addedGame = await addGame(categoryId, gameData, {
+      const newGame = await addGame(categoryId, newGameData, {
         headers: { Authorization: `Bearer ${auth.accessToken}` },
       });
-      setGames((prevGames) => [...prevGames, addedGame]);
-      setNewGameData({ title: "", description: "" });
+      setGames((prevGames) => [...prevGames, newGame]);
       setIsAddingGame(false);
+      setNewGameData({ title: "", description: "" });
       alert("Game added successfully.");
     } catch (error) {
       console.error("Failed to add game:", error);
-      if (error.response?.status === 403 || error.response?.status === 401) {
-        alert("Unauthorized: You do not have permission to add games.");
-      } else {
-        alert("Failed to add game. Please try again.");
-      }
+      alert("Failed to add game. Please try again.");
     }
   };
 
@@ -128,57 +140,60 @@ export function Category() {
     <div className="category-page">
       <div className="category-header">
         <h1 className="category-title">{category.Name}</h1>
-        <button onClick={handleDeleteCategory} className="delete-button">
-          Delete Category
-        </button>
       </div>
 
-      <div className="category-details">
-        <p>
-          <strong>Description:</strong> {category.Description}
-        </p>
-        <p>
-          <strong>Additional Description:</strong>{" "}
-          {category.AdditionalDescription || "N/A"}
-        </p>
-        <p>
-          <strong>Rating:</strong> {category.Rating}
-        </p>
-      </div>
+      <div>
+          <button onClick={handleDeleteCategory} className="delete-button">
+            Delete Category
+          </button>
+          <button onClick={handleEditToggle} className="edit-button">
+            {isEditing ? "Cancel Edit" : "Edit Category"}
+          </button>
+          <button onClick={handleAddGameToggle} className="add-game-button">
+            {isAddingGame ? "Cancel Add Game" : "Add New Game"}
+          </button>
+        </div>
+
+      {isEditing ? (
+        <div className="edit-category-form">
+          <h2>Edit Category</h2>
+          <input
+            type="text"
+            name="Name"
+            value={editData.Name || ""}
+            onChange={handleEditChange}
+            placeholder="Category Name"
+          />
+          <textarea
+            name="Description"
+            value={editData.Description || ""}
+            onChange={handleEditChange}
+            placeholder="Category Description"
+          />
+          <textarea
+            name="AdditionalDescription"
+            value={editData.AdditionalDescription || ""}
+            onChange={handleEditChange}
+            placeholder="Additional Description"
+          />
+          <button onClick={handleEditSubmit} className="save-button">
+            Save Changes
+          </button>
+        </div>
+      ) : (
+        <div className="category-details">
+          <p><strong>Description:</strong> {category.Description}</p>
+          <p><strong>Additional Description:</strong> {category.AdditionalDescription || "N/A"}</p>
+          <p><strong>Rating:</strong> {category.Rating}</p>
+        </div>
+      )}
 
       <div className="games-section">
         <h2>Games in this Category</h2>
-        {games.length > 0 ? (
-          <div className="games-list">
-            {games.map((game) => (
-              <div className="game-card" key={game.Id}>
-                <h3>{game.Title}</h3>
-                <p>{game.Description}</p>
-                <p>
-                  <strong>Rating:</strong> {game.Rating}
-                </p>
-                <p>
-                  <strong>Release Date:</strong>{" "}
-                  {new Date(game.ReleaseDate).toLocaleDateString()}
-                </p>
-                <Link
-                  to={`/categories/${categoryId}/games/${game.Id}`}
-                  className="game-link"
-                >
-                  View Details
-                </Link>
-              </div>
-            ))}
-          </div>
-        ) : (
-          <p>No games available in this category.</p>
-        )}
-      </div>
 
-      <div className="add-game-section">
-        <h2>Add a New Game</h2>
-        {isAddingGame ? (
-          <>
+        {isAddingGame && (
+          <div className="add-game-form">
+            <h3>Add New Game</h3>
             <input
               type="text"
               name="title"
@@ -192,19 +207,26 @@ export function Category() {
               onChange={handleNewGameChange}
               placeholder="Game Description"
             />
-            <div className="add-game-actions">
-              <button onClick={handleAddGame} className="save-button">
-                Add Game
-              </button>
-              <button onClick={handleAddGameToggle} className="cancel-button">
-                Cancel
-              </button>
-            </div>
-          </>
+            <button onClick={handleAddGameSubmit} className="save-button">
+              Add Game
+            </button>
+          </div>
+        )}
+
+        {games.length > 0 ? (
+          <div className="games-list">
+            {games.map((game) => (
+              <div className="game-card" key={game.Id}>
+                <h3>{game.Title}</h3>
+                <p>{game.Description}</p>
+                <Link to={`/categories/${categoryId}/games/${game.Id}`} className="game-link">
+                  View Details
+                </Link>
+              </div>
+            ))}
+          </div>
         ) : (
-          <button onClick={handleAddGameToggle} className="add-button">
-            Add Game
-          </button>
+          <p>No games available in this category.</p>
         )}
       </div>
     </div>

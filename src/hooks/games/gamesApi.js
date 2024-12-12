@@ -38,24 +38,37 @@ const addGame = async (categoryId, gameData, config) => {
 
 
 // Update an existing game in a category
-const updateGame = async (categoryId, gameId, gameData) => {
+const updateGame = async (categoryId, gameId, gameData, options = {}) => {
   try {
-    const response = await axios.put(`${BASE_URL}/${categoryId}/games/${gameId}`, gameData);
+    const response = await axios.put(
+      `${BASE_URL}/${categoryId}/games/${gameId}`,
+      gameData,
+      options
+    );
     return response.data;
   } catch (error) {
-    throw new Error(error.message || `Failed to update game with ID: ${gameId} in category ID: ${categoryId}`);
+    throw new Error(
+      error.message || `Failed to update game with ID: ${gameId} in category ID: ${categoryId}`
+    );
   }
 };
 
 // Delete a game from a category
-const deleteGame = async (categoryId, gameId) => {
+const deleteGame = async (categoryId, gameId, options = {}) => {
   try {
-    const response = await axios.delete(`${BASE_URL}/${categoryId}/games/${gameId}`);
+    const response = await axios.delete(
+      `${BASE_URL}/${categoryId}/games/${gameId}`,
+      options
+    );
     return response.data;
   } catch (error) {
-    throw new Error(error.message || `Failed to delete game with ID: ${gameId} in category ID: ${categoryId}`);
+    throw new Error(
+      error.response?.data?.message ||
+      `Failed to delete game with ID: ${gameId} in category ID: ${categoryId}`
+    );
   }
 };
+
 
 export {
   getGames,
