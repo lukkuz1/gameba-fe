@@ -1,5 +1,5 @@
 /* General styles for the login and register pages */
-.auth-page {
+.auth-page-container {
   font-family: 'Roboto', sans-serif;
   background-color: #f4f7f6;
   min-height: 100vh;
@@ -27,7 +27,7 @@
 }
 
 /* Container for the form section */
-.auth-container {
+.auth-form-container {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -40,7 +40,7 @@
   padding: 40px;
 }
 
-.auth-container h2 {
+.auth-form-container h2 {
   text-align: center;
   margin-bottom: 20px;
   font-size: 1.8rem;
@@ -53,7 +53,7 @@
   width: 100%;
 }
 
-.auth-input {
+.auth-input-field {
   padding: 12px;
   font-size: 1rem;
   border: 1px solid #ddd;
@@ -62,12 +62,12 @@
   transition: all 0.3s ease-in-out;
 }
 
-.auth-input:focus {
+.auth-input-field:focus {
   border-color: #ff5722;
   box-shadow: 0 0 5px rgba(255, 87, 34, 0.4);
 }
 
-.auth-button {
+.auth-submit-button {
   padding: 14px;
   font-size: 1.1rem;
   background-color: #ff5722;
@@ -78,12 +78,28 @@
   transition: background-color 0.3s ease;
 }
 
-.auth-button:hover {
+.auth-submit-button:hover {
   background-color: #e64a19;
 }
 
+/* Password strength message */
+.auth-password-strength {
+  font-size: 0.9rem;
+  text-align: center;
+  margin-top: 10px;
+  padding: 5px;
+}
+
+.auth-password-strength.weak {
+  color: #f44336;
+}
+
+.auth-password-strength.strong {
+  color: #4caf50;
+}
+
 /* Error and success message styling */
-.error, .success {
+.auth-error-message, .auth-success-message {
   color: red;
   text-align: center;
   font-size: 1rem;
@@ -92,19 +108,19 @@
 /* Responsive design */
 @media (max-width: 600px) {
   .auth-header h1 {
-      font-size: 2.5rem;
+    font-size: 2.5rem;
   }
 
-  .auth-container {
-      padding: 30px;
+  .auth-form-container {
+    padding: 30px;
   }
 
-  .auth-container h2 {
-      font-size: 1.5rem;
+  .auth-form-container h2 {
+    font-size: 1.5rem;
   }
 
-  .auth-button {
-      font-size: 1rem;
-      padding: 12px;
+  .auth-submit-button {
+    font-size: 1rem;
+    padding: 12px;
   }
 }

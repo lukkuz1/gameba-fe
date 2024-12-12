@@ -28,16 +28,16 @@ function Login() {
   };
 
   return (
-    <div className="auth-page">
+    <div className="auth-page-container">
       <header className="auth-header">
         <h1>Gameba</h1>
         <p>Your favorite game marketplace</p>
       </header>
-      <div className="auth-container">
+      <div className="auth-form-container">
         <form onSubmit={handleSubmit} className="auth-form">
           <input
             type="text"
-            className="auth-input"
+            className="auth-input-field"
             placeholder="Username"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
@@ -45,15 +45,15 @@ function Login() {
           />
           <input
             type="password"
-            className="auth-input"
+            className="auth-input-field"
             placeholder="Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
           />
-          <button type="submit" className="auth-button">Login</button>
+          <button type="submit" className="auth-submit-button">Login</button>
         </form>
-        {error && <p className="error">{error}</p>}
+        {error && <p className="auth-error-message">{error}</p>}
       </div>
     </div>
   );

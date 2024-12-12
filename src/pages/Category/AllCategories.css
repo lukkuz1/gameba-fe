@@ -36,21 +36,41 @@
 }
 
 .auth-button {
-  padding: 12px 24px;
+  padding: 14px 28px;
   font-size: 1.1rem;
   font-weight: 600;
-  border: none;
-  border-radius: 8px;
+  border-radius: 50px; /* Round button corners */
   cursor: pointer;
-  background-color: #ffffff;
-  color: #ff6347;
-  transition: all 0.3s;
+  background-color: transparent;
+  color:white;
+  transition: all 0.3s ease-in-out;
+  text-transform: uppercase; /* Uppercase text for a bold look */
 }
 
 .auth-button:hover {
-  background-color: #ff5e3a;
+  background-color: #ff6347;
   color: white;
+  box-shadow: 0 4px 12px rgba(255, 99, 71, 0.3); /* Soft shadow for depth */
+  transform: scale(1.05); /* Slightly grow the button on hover */
 }
+
+.auth-button:active {
+  transform: scale(0.98); /* Subtle shrink effect when the button is clicked */
+}
+
+.auth-button:focus {
+  outline: none; /* Remove focus outline */
+  box-shadow: 0 0 5px 3px rgba(255, 99, 71, 0.5); /* Add focus glow */
+}
+
+/* Responsive adjustments for smaller screens */
+@media (max-width: 600px) {
+  .auth-button {
+    padding: 12px 24px;
+    font-size: 1rem;
+  }
+}
+
 
 /* Info and Add Category buttons */
 .info-button, .add-button {
