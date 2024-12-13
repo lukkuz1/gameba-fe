@@ -15,8 +15,8 @@ export function Category() {
   const [isEditing, setIsEditing] = useState(false);
   const [editData, setEditData] = useState({});
   const [isAddingGame, setIsAddingGame] = useState(false);
-  const [newGameData, setNewGameData] = useState({ title: "", description: "" });
-  const { auth } = useAuth();  // Access auth context
+  const [newGameData, setNewGameData] = useState({});
+  const { auth } = useAuth(); // Access auth context
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -116,7 +116,7 @@ export function Category() {
       });
       setGames((prevGames) => [...prevGames, newGame]);
       setIsAddingGame(false);
-      setNewGameData({ title: "", description: "" });
+      setNewGameData({});
       alert("Game added successfully.");
     } catch (error) {
       console.error("Failed to add game:", error);
@@ -142,7 +142,6 @@ export function Category() {
         <h1 className="category-title">{category.Name}</h1>
       </div>
 
-      {/* Conditionally render buttons based on user's authentication */}
       {auth?.accessToken && (
         <div className="category-buttons">
           <button onClick={handleDeleteCategory} className="category-button">Delete Category</button>
@@ -177,6 +176,13 @@ export function Category() {
             onChange={handleEditChange}
             placeholder="Additional Description"
           />
+          <input
+            type="number"
+            name="Rating"
+            value={editData.Rating || ""}
+            onChange={handleEditChange}
+            placeholder="Category Rating"
+          />
           <button onClick={handleEditSubmit}>Save Changes</button>
         </div>
       ) : (
@@ -193,16 +199,37 @@ export function Category() {
             <h3>Add New Game</h3>
             <input
               type="text"
-              name="title"
-              value={newGameData.title}
+              name="Title"
+              value={newGameData.Title || ""}
               onChange={handleNewGameChange}
               placeholder="Game Title"
             />
             <textarea
-              name="description"
-              value={newGameData.description}
+              name="Description"
+              value={newGameData.Description || ""}
               onChange={handleNewGameChange}
               placeholder="Game Description"
+            />
+            <input
+              type="text"
+              name="Developer"
+              value={newGameData.Developer || ""}
+              onChange={handleNewGameChange}
+              placeholder="Game Developer"
+            />
+            <input
+              type="date"
+              name="ReleaseDate"
+              value={newGameData.ReleaseDate || ""}
+              onChange={handleNewGameChange}
+              placeholder="Release Date"
+            />
+            <input
+              type="number"
+              name="Rating"
+              value={newGameData.Rating || ""}
+              onChange={handleNewGameChange}
+              placeholder="Game Rating"
             />
             <button onClick={handleAddGameSubmit}>Add Game</button>
           </div>

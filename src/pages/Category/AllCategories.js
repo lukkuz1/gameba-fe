@@ -13,7 +13,7 @@ export function CategoriesPage() {
   const [error, setError] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false); // Toggle for Add Category Modal
-  const [newCategory, setNewCategory] = useState({ Name: "", Description: "" });
+  const [newCategory, setNewCategory] = useState({ Name: "", Description: "", AdditionalDescription: "" });
   const { auth, logout } = useAuth();
   const navigate = useNavigate();
 
@@ -42,11 +42,16 @@ export function CategoriesPage() {
       return;
     }
 
+    if (!newCategory.Name.trim() || !newCategory.Description.trim()) {
+      alert("Category Name and Description are required.");
+      return;
+    }
+
     try {
       const response = await addCategorie(newCategory, auth.accessToken);
       setCategories((prevCategories) => [...prevCategories, response]);
-      setIsAddModalOpen(false); // Close modal after adding
-      setNewCategory({ Name: "", Description: "" });
+      setIsAddModalOpen(false);
+      setNewCategory({ Name: "", Description: "", AdditionalDescription: "" });
     } catch (error) {
       alert("Failed to add category. Ensure you have admin privileges.");
     }
@@ -90,7 +95,6 @@ export function CategoriesPage() {
           <p>Explore the best game categories and find your next adventure!</p>
         </Modal>
 
-        {/* Add New Category Modal */}
         <AddCategoryModal
           isOpen={isAddModalOpen}
           onClose={() => setIsAddModalOpen(false)}

@@ -209,12 +209,12 @@ export function Game() {
         )}
       </div>
 
-      <div className="game-page__details">
+      {/* <div className="game-page__details">
         <p><strong>Rating:</strong> {game.Rating}</p>
         <p><strong>Release Date:</strong> {new Date(game.ReleaseDate).toLocaleDateString()}</p>
         <p><strong>Developer:</strong> {game.Developer}</p>
         <p><strong>Platform:</strong> {game.Platform}</p>
-      </div>
+      </div> */}
 
       <div className="game-page__comments">
         <h2>Comments</h2>

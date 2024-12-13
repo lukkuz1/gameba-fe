@@ -29,6 +29,13 @@ const AddCategoryModal = ({
             setNewCategory({ ...newCategory, Description: e.target.value })
           }
         />
+        <textarea
+          placeholder="Additional Description (Optional)"
+          value={newCategory.AdditionalDescription || ""}
+          onChange={(e) =>
+            setNewCategory({ ...newCategory, AdditionalDescription: e.target.value })
+          }
+        />
         <div className="modal-buttons">
           <button onClick={handleAddCategory} className="gameba-submit-button">
             Add
