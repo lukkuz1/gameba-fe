@@ -19,10 +19,7 @@ export function Game() {
   const [updatedGame, setUpdatedGame] = useState({
     Title: '',
     Description: '',
-    Rating: '',
-    ReleaseDate: '',
     Developer: '',
-    Platform: ''
   });
 
   useEffect(() => {
@@ -33,10 +30,7 @@ export function Game() {
         setUpdatedGame({
           Title: gameData.Title,
           Description: gameData.Description,
-          Rating: gameData.Rating,
-          ReleaseDate: gameData.ReleaseDate,
           Developer: gameData.Developer,
-          Platform: gameData.Platform
         });
         setLoading(false);
       } catch (err) {
@@ -161,30 +155,10 @@ export function Game() {
               className="game-page__textarea-field"
             />
             <input
-              type="number"
-              value={updatedGame.Rating}
-              onChange={(e) => setUpdatedGame({ ...updatedGame, Rating: e.target.value })}
-              placeholder="Game Rating"
-              className="game-page__input-field"
-            />
-            <input
-              type="date"
-              value={updatedGame.ReleaseDate}
-              onChange={(e) => setUpdatedGame({ ...updatedGame, ReleaseDate: e.target.value })}
-              className="game-page__input-field"
-            />
-            <input
               type="text"
               value={updatedGame.Developer}
               onChange={(e) => setUpdatedGame({ ...updatedGame, Developer: e.target.value })}
               placeholder="Developer"
-              className="game-page__input-field"
-            />
-            <input
-              type="text"
-              value={updatedGame.Platform}
-              onChange={(e) => setUpdatedGame({ ...updatedGame, Platform: e.target.value })}
-              placeholder="Platform"
               className="game-page__input-field"
             />
             <div className="game-page__form-actions">
@@ -209,12 +183,10 @@ export function Game() {
         )}
       </div>
 
-      {/* <div className="game-page__details">
-        <p><strong>Rating:</strong> {game.Rating}</p>
-        <p><strong>Release Date:</strong> {new Date(game.ReleaseDate).toLocaleDateString()}</p>
+      <div className="game-page__details">
         <p><strong>Developer:</strong> {game.Developer}</p>
-        <p><strong>Platform:</strong> {game.Platform}</p>
-      </div> */}
+        <p><strong>Rating:</strong> {game.Rating}</p>
+      </div>
 
       <div className="game-page__comments">
         <h2>Comments</h2>

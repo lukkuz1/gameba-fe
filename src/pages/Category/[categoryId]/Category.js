@@ -15,7 +15,11 @@ export function Category() {
   const [isEditing, setIsEditing] = useState(false);
   const [editData, setEditData] = useState({});
   const [isAddingGame, setIsAddingGame] = useState(false);
-  const [newGameData, setNewGameData] = useState({});
+  const [newGameData, setNewGameData] = useState({
+    Title: "",
+    Description: "",
+    Developer: "",
+  });
   const { auth } = useAuth(); // Access auth context
   const navigate = useNavigate();
 
@@ -110,13 +114,24 @@ export function Category() {
       return;
     }
 
+    // Ensure all fields are filled
+    const { Title, Description, Developer } = newGameData;
+    if (!Title || !Description || !Developer) {
+      alert("All fields are required to add a game.");
+      return;
+    }
+
     try {
       const newGame = await addGame(categoryId, newGameData, {
         headers: { Authorization: `Bearer ${auth.accessToken}` },
       });
       setGames((prevGames) => [...prevGames, newGame]);
       setIsAddingGame(false);
-      setNewGameData({});
+      setNewGameData({
+        Title: "",
+        Description: "",
+        Developer: "",
+      });
       alert("Game added successfully.");
     } catch (error) {
       console.error("Failed to add game:", error);
@@ -216,20 +231,6 @@ export function Category() {
               value={newGameData.Developer || ""}
               onChange={handleNewGameChange}
               placeholder="Game Developer"
-            />
-            <input
-              type="date"
-              name="ReleaseDate"
-              value={newGameData.ReleaseDate || ""}
-              onChange={handleNewGameChange}
-              placeholder="Release Date"
-            />
-            <input
-              type="number"
-              name="Rating"
-              value={newGameData.Rating || ""}
-              onChange={handleNewGameChange}
-              placeholder="Game Rating"
             />
             <button onClick={handleAddGameSubmit}>Add Game</button>
           </div>
